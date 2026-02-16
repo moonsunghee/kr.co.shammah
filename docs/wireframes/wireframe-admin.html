@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>와이어프레임 - 관리자 페이지 | 삼마디자인</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Malgun Gothic', sans-serif; background: #f0f0f0; color: #333; }
+  .placeholder { background: #D9D9D9; border: 1px dashed #AAAAAA; display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px; text-align:center; }
+  .page-title { background: #333; color: #fff; padding: 12px 20px; font-size: 14px; font-weight: bold; position: sticky; top: 0; z-index: 999; display: flex; align-items: center; gap: 12px; }
+  .page-title .badge { background: #9B59B6; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .annotation-panel { background: #F5EBF9; border: 1px solid #9B59B6; padding: 16px 20px; font-size: 12px; }
+  .annotation-panel h4 { font-size: 13px; margin-bottom: 8px; color: #4A0070; }
+  .annotation-panel ul { padding-left: 16px; color: #6A0090; line-height: 1.9; }
+  .section-divider { background: #E0D0E8; padding: 10px 20px; font-size: 13px; font-weight: bold; color: #4A0070; border-left: 4px solid #9B59B6; margin: 24px 0 0; }
+
+  /* ===== 어드민 레이아웃 ===== */
+  .admin-wrapper { display: flex; min-height: 100vh; }
+  .admin-sidebar { width: 220px; background: #1A1A1A; flex-shrink: 0; }
+  .admin-sidebar .logo { padding: 20px; font-size: 16px; font-weight: bold; color: #fff; border-bottom: 1px solid #333; }
+  .admin-sidebar .logo span { color: #FF6B6B; }
+  .admin-sidebar nav ul { list-style: none; padding: 12px 0; }
+  .admin-sidebar nav ul li a { display: block; padding: 10px 20px; color: #aaa; text-decoration: none; font-size: 13px; border-left: 3px solid transparent; }
+  .admin-sidebar nav ul li a:hover, .admin-sidebar nav ul li a.active { color: #fff; background: #2A2A2A; border-left-color: #FF6B6B; }
+  .admin-sidebar nav ul li .section-label { padding: 16px 20px 4px; font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; }
+  .admin-sidebar .logout { padding: 20px; border-top: 1px solid #333; }
+  .admin-sidebar .logout button { width: 100%; background: #333; color: #aaa; border: none; padding: 8px; font-size: 12px; cursor: pointer; }
+
+  .admin-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .admin-header { background: #fff; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; }
+  .admin-header h2 { font-size: 15px; font-weight: bold; }
+  .admin-header .admin-user { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
+  .admin-header .admin-user .avatar { width: 28px; height: 28px; background: #FF6B6B; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+  .admin-content { flex: 1; padding: 24px; background: #F5F5F5; overflow-y: auto; }
+
+  /* 대시보드 카드 */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card { background: #fff; padding: 20px; border-left: 4px solid #FF6B6B; }
+  .stat-card .stat-label { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 8px; }
+  .stat-card .stat-value { font-size: 24px; font-weight: bold; }
+  .stat-card:nth-child(2) { border-left-color: #4A9EFF; }
+  .stat-card:nth-child(3) { border-left-color: #2EC866; }
+  .stat-card:nth-child(4) { border-left-color: #FFB347; }
+
+  /* 콘텐츠 관리 영역 */
+  .cms-panel { background: #fff; margin-bottom: 24px; }
+  .cms-panel-header { padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+  .cms-panel-header h3 { font-size: 14px; font-weight: bold; }
+  .btn-add { background: #1A1A1A; color: #fff; border: none; padding: 6px 14px; font-size: 12px; cursor: pointer; }
+  .btn-edit { background: #4A9EFF; color: #fff; border: none; padding: 4px 10px; font-size: 11px; cursor: pointer; }
+  .btn-delete { background: #FF6B6B; color: #fff; border: none; padding: 4px 10px; font-size: 11px; cursor: pointer; }
+  .btn-save { background: #2EC866; color: #fff; border: none; padding: 4px 10px; font-size: 11px; cursor: pointer; }
+  .cms-panel-body { padding: 20px; }
+
+  /* 이미지 관리 */
+  .img-manager { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .img-item { border: 1px solid #eee; }
+  .img-item .thumb { height: 100px; }
+  .img-item .img-info { padding: 8px; }
+  .img-item .img-name { font-size: 11px; color: #555; margin-bottom: 6px; }
+  .img-item .img-actions { display: flex; gap: 4px; }
+
+  /* 텍스트 편집 */
+  .text-field { margin-bottom: 16px; }
+  .text-field label { display: block; font-size: 11px; color: #888; margin-bottom: 4px; text-transform: uppercase; }
+  .text-field input, .text-field textarea { width: 100%; border: 1px solid #ddd; padding: 8px 12px; font-size: 13px; background: #fafafa; }
+  .text-field textarea { height: 80px; resize: vertical; }
+
+  /* 테이블 */
+  .admin-table { width: 100%; border-collapse: collapse; }
+  .admin-table th { background: #1A1A1A; color: #fff; padding: 10px 12px; font-size: 12px; text-align: left; }
+  .admin-table td { padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 12px; }
+  .admin-table tr:hover td { background: #f9f9f9; }
+  .status-badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 10px; }
+  .status-new { background: #E8F4FF; color: #0066CC; }
+  .status-review { background: #FFF9E6; color: #CC8800; }
+  .status-done { background: #E8FFF0; color: #006622; }
+  .status-hold { background: #F9F9F9; color: #888; }
+
+  /* 폼 영역 */
+  .form-row { margin-bottom: 14px; }
+  .form-row label { display: block; font-size: 11px; font-weight: bold; color: #555; margin-bottom: 4px; }
+  .form-input { width: 100%; height: 38px; border: 1px solid #ddd; padding: 0 10px; font-size: 13px; }
+  .form-textarea { width: 100%; height: 100px; border: 1px solid #ddd; padding: 10px; font-size: 13px; resize: vertical; }
+  .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-actions { display: flex; gap: 8px; margin-top: 16px; }
+  .btn-primary { background: #1A1A1A; color: #fff; border: none; padding: 8px 20px; font-size: 13px; cursor: pointer; }
+  .btn-secondary { background: #eee; color: #333; border: none; padding: 8px 20px; font-size: 13px; cursor: pointer; }
+
+  .page-block { background: #fff; border: 1px solid #e0e0e0; padding: 0 0 24px; margin-bottom: 20px; }
+  .block-title { background: #2A2A2A; color: #ccc; padding: 8px 16px; font-size: 12px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  삼마디자인 | 와이어프레임
+  <span class="badge">관리자 페이지 (admin/)</span>
+  <span style="margin-left:auto; font-size:11px; font-weight:normal; color:#aaa;">5개 관리자 페이지 + 로그인</span>
+</div>
+
+<!-- ========== 1. 로그인 ========== -->
+<div class="section-divider">① 관리자 로그인 (admin/login.html)</div>
+<div style="background:#F5F5F5; padding:60px; display:flex; justify-content:center;">
+  <div style="background:#fff; width:380px; padding:40px; border:1px solid #eee;">
+    <div style="text-align:center; margin-bottom:32px;">
+      <div style="font-size:20px; font-weight:bold; margin-bottom:4px;">SHAMMAH</div>
+      <div style="font-size:12px; color:#888;">관리자 로그인</div>
+    </div>
+    <div class="form-row">
+      <label>아이디</label>
+      <input type="text" class="form-input" placeholder="관리자 아이디">
+    </div>
+    <div class="form-row">
+      <label>비밀번호</label>
+      <input type="password" class="form-input" placeholder="비밀번호">
+    </div>
+    <button style="width:100%; background:#1A1A1A; color:#fff; border:none; padding:12px; font-size:14px; cursor:pointer; margin-top:8px;">로그인</button>
+    <p style="font-size:11px; color:#bbb; text-align:center; margin-top:16px;">관리자 계정이 없으시면 담당자에게 문의하세요</p>
+  </div>
+</div>
+<div class="annotation-panel">
+  <h4>■ 로그인 명세</h4>
+  <ul>
+    <li>아이디/비밀번호 입력 → localStorage 또는 하드코딩 인증 (MVP)</li>
+    <li>로그인 성공 시 admin 대시보드로 이동</li>
+    <li>인증 실패 시 에러 메시지 노출</li>
+    <li>세션: sessionStorage에 로그인 상태 저장</li>
+    <li>모든 관리자 페이지 진입 시 인증 체크 → 미인증 시 로그인으로 리다이렉트</li>
+  </ul>
+</div>
+
+<!-- ========== 2. 관리자 공통 레이아웃 ========== -->
+<div class="section-divider">② 관리자 공통 레이아웃 (사이드바 + 헤더)</div>
+<div class="admin-wrapper" style="height:500px; border:1px solid #ddd; overflow:hidden;">
+  <div class="admin-sidebar">
+    <div class="logo"><span>SHAMMAH</span> Admin</div>
+    <nav>
+      <ul>
+        <li><a href="#" class="active">대시보드</a></li>
+        <li class="section-label">페이지 관리</li>
+        <li><a href="#">인덱스 관리</a></li>
+        <li><a href="#">프리랜서 관리</a></li>
+        <li><a href="#">포트폴리오 관리</a></li>
+        <li><a href="#">교육 관리</a></li>
+        <li class="section-label">견적 관리</li>
+        <li><a href="#">견적 목록</a></li>
+        <li class="section-label">설정</li>
+        <li><a href="#">사이트 설정</a></li>
+      </ul>
+    </nav>
+    <div class="logout"><button>로그아웃</button></div>
+  </div>
+  <div class="admin-main">
+    <div class="admin-header">
+      <h2>대시보드</h2>
+      <div class="admin-user">
+        <div class="avatar">A</div>
+        Admin
+      </div>
+    </div>
+    <div class="admin-content">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-label">견적 접수 (이번달)</div>
+          <div class="stat-value">12</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">포트폴리오 항목</div>
+          <div class="stat-value">34</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">교육 강좌</div>
+          <div class="stat-value">7</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">처리 완료 견적</div>
+          <div class="stat-value">8</div>
+        </div>
+      </div>
+      <div style="background:#fff; padding:20px; font-size:13px; color:#888; text-align:center; border:1px dashed #ddd;">
+        최근 견적 목록 / 빠른 바로가기 등 대시보드 위젯
+      </div>
+    </div>
+  </div>
+</div>
+<div class="annotation-panel">
+  <h4>■ 공통 관리자 레이아웃 명세</h4>
+  <ul>
+    <li>좌측 사이드바(220px): 로고 + 메뉴 + 로그아웃</li>
+    <li>우측 메인: 헤더(56px) + 콘텐츠 영역</li>
+    <li>사이드바 메뉴: 현재 페이지 활성 표시 (좌측 레드 라인)</li>
+    <li>대시보드: 통계 카드 4개 + 최근 견적 목록</li>
+  </ul>
+</div>
+
+<!-- ========== 3. 인덱스 관리 ========== -->
+<div class="section-divider">③ 인덱스 관리 (admin/index-admin.html)</div>
+<div style="background:#F5F5F5; padding:20px;">
+  <div class="page-block">
+    <div class="block-title">[ 히어로 배너 관리 ] CMS 섹션</div>
+    <div style="padding:20px;">
+      <div class="img-manager" style="grid-template-columns:1fr; margin-bottom:16px;">
+        <div class="img-item" style="display:flex; gap:16px; align-items:center; padding:12px; border:1px solid #eee;">
+          <div class="placeholder thumb" style="width:160px; height:90px; flex-shrink:0;">[배너 이미지]</div>
+          <div style="flex:1;">
+            <div class="text-field">
+              <label>헤드라인 (Bold 부분)</label>
+              <input type="text" class="form-input" value="WEB DESIGN">
+            </div>
+            <div class="text-field">
+              <label>헤드라인 (Light 부분)</label>
+              <input type="text" class="form-input" value="& DEVELOPMENT">
+            </div>
+            <div class="text-field">
+              <label>서브 문구</label>
+              <input type="text" class="form-input" value="삼마디자인과 함께 만드는 특별한 웹 경험">
+            </div>
+          </div>
+          <div>
+            <button class="btn-edit" style="display:block; margin-bottom:4px;">이미지 교체</button>
+            <button class="btn-save">저장</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="block-title">[ About 섹션 관리 ] CMS 섹션</div>
+    <div style="padding:20px; display:grid; grid-template-columns:200px 1fr; gap:20px;">
+      <div>
+        <div class="placeholder" style="height:200px; margin-bottom:8px;">[About 이미지]</div>
+        <button class="btn-edit" style="width:100%;">이미지 교체</button>
+      </div>
+      <div>
+        <div class="text-field"><label>제목</label><input type="text" class="form-input" value="HEADLINE HERE"></div>
+        <div class="text-field"><label>서브타이틀</label><input type="text" class="form-input" value="서브타이틀의 위치"></div>
+        <div class="text-field"><label>본문</label><textarea class="form-textarea">삼마디자인에 대한 소개 텍스트...</textarea></div>
+        <button class="btn-save">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="block-title">[ 교육 카드 관리 ] CMS 섹션</div>
+    <div style="padding:16px;">
+      <div style="display:flex; justify-content:flex-end; margin-bottom:12px;">
+        <button class="btn-add">+ 카드 추가</button>
+      </div>
+      <div class="img-manager">
+        <div class="img-item">
+          <div class="placeholder thumb" style="height:120px;">[카드1 이미지]</div>
+          <div class="img-info">
+            <div class="img-name">강좌명: Figma 초급</div>
+            <div class="img-actions">
+              <button class="btn-edit">편집</button>
+              <button class="btn-delete">삭제</button>
+            </div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="placeholder thumb" style="height:120px;">[카드2 이미지]</div>
+          <div class="img-info">
+            <div class="img-name">강좌명: HTML/CSS</div>
+            <div class="img-actions">
+              <button class="btn-edit">편집</button>
+              <button class="btn-delete">삭제</button>
+            </div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="placeholder thumb" style="height:120px;">[카드3 이미지]</div>
+          <div class="img-info">
+            <div class="img-name">강좌명: JavaScript</div>
+            <div class="img-actions">
+              <button class="btn-edit">편집</button>
+              <button class="btn-delete">삭제</button>
+            </div>
+          </div>
+        </div>
+        <div class="img-item" style="border:2px dashed #ddd; display:flex; align-items:center; justify-content:center; height:170px; cursor:pointer; color:#bbb;">
+          + 카드 추가
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="annotation-panel">
+  <h4>■ 인덱스 관리 명세</h4>
+  <ul>
+    <li>섹션별 CMS 패널 구성 (히어로 / About / 포트폴리오 / 교육카드)</li>
+    <li>이미지 교체: 파일 업로드 → base64 인코딩 → localStorage 저장</li>
+    <li>텍스트 편집: 인풋 수정 후 [저장] 버튼 → JSON으로 localStorage 저장</li>
+    <li>프론트 페이지 로드 시 localStorage 데이터 우선 읽어서 렌더링</li>
+  </ul>
+</div>
+
+<!-- ========== 4. 견적 관리 ========== -->
+<div class="section-divider">④ 견적 목록 관리 (admin/quote-admin.html)</div>
+<div style="background:#F5F5F5; padding:20px;">
+  <div class="cms-panel">
+    <div class="cms-panel-header">
+      <h3>견적 요청 목록</h3>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <select style="border:1px solid #ddd; padding:4px 8px; font-size:12px;">
+          <option>전체</option>
+          <option>접수</option>
+          <option>검토중</option>
+          <option>완료</option>
+          <option>보류</option>
+        </select>
+        <input type="text" style="border:1px solid #ddd; padding:4px 8px; font-size:12px; width:160px;" placeholder="검색...">
+      </div>
+    </div>
+    <div class="cms-panel-body">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>의뢰인명</th>
+            <th>연락처</th>
+            <th>의뢰 종류</th>
+            <th>접수일</th>
+            <th>상태</th>
+            <th>관리</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>#012</td>
+            <td>홍길동</td>
+            <td>010-1234-5678</td>
+            <td>웹디자인, 웹개발</td>
+            <td>2026-02-15</td>
+            <td><span class="status-badge status-new">접수</span></td>
+            <td><button class="btn-edit">상세</button> <button class="btn-delete">삭제</button></td>
+          </tr>
+          <tr>
+            <td>#011</td>
+            <td>김철수</td>
+            <td>010-9876-5432</td>
+            <td>웹기획, 웹디자인, 웹개발</td>
+            <td>2026-02-12</td>
+            <td><span class="status-badge status-review">검토중</span></td>
+            <td><button class="btn-edit">상세</button> <button class="btn-delete">삭제</button></td>
+          </tr>
+          <tr>
+            <td>#010</td>
+            <td>이영희</td>
+            <td>010-5555-4444</td>
+            <td>IT교육</td>
+            <td>2026-02-10</td>
+            <td><span class="status-badge status-done">완료</span></td>
+            <td><button class="btn-edit">상세</button> <button class="btn-delete">삭제</button></td>
+          </tr>
+          <tr>
+            <td>#009</td>
+            <td>박민준</td>
+            <td>010-3333-2222</td>
+            <td>웹개발 (풀스택)</td>
+            <td>2026-02-08</td>
+            <td><span class="status-badge status-hold">보류</span></td>
+            <td><button class="btn-edit">상세</button> <button class="btn-delete">삭제</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 상세 패널 -->
+  <div class="cms-panel">
+    <div class="cms-panel-header">
+      <h3>견적 상세 (#012 — 홍길동)</h3>
+      <div style="display:flex; gap:8px;">
+        <select style="border:1px solid #ddd; padding:4px 8px; font-size:12px;">
+          <option>접수</option>
+          <option>검토중</option>
+          <option>완료</option>
+          <option>보류</option>
+        </select>
+        <button class="btn-save">상태 저장</button>
+      </div>
+    </div>
+    <div class="cms-panel-body" style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+      <div>
+        <div class="form-row"><label>의뢰인명</label><div style="padding:8px; background:#f9f9f9; border:1px solid #eee; font-size:13px;">홍길동</div></div>
+        <div class="form-row"><label>연락처</label><div style="padding:8px; background:#f9f9f9; border:1px solid #eee; font-size:13px;">010-1234-5678</div></div>
+        <div class="form-row"><label>이메일</label><div style="padding:8px; background:#f9f9f9; border:1px solid #eee; font-size:13px;">hong@email.com</div></div>
+        <div class="form-row"><label>의뢰 종류</label><div style="padding:8px; background:#f9f9f9; border:1px solid #eee; font-size:13px;">웹디자인, 웹개발</div></div>
+        <div class="form-row"><label>예산 범위</label><div style="padding:8px; background:#f9f9f9; border:1px solid #eee; font-size:13px;">300 ~ 500만원</div></div>
+      </div>
+      <div>
+        <div class="form-row"><label>프로젝트 설명</label><div style="padding:8px; background:#f9f9f9; border:1px solid #eee; font-size:13px; min-height:120px; line-height:1.7;">프로젝트에 대한 상세한 내용이 여기에 표시됩니다...</div></div>
+        <div class="form-row"><label>메모 (관리자용)</label><textarea class="form-textarea" style="height:80px;" placeholder="내부 메모를 입력하세요..."></textarea></div>
+        <button class="btn-save">메모 저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="annotation-panel">
+  <h4>■ 견적 관리 명세</h4>
+  <ul>
+    <li>목록: 번호/이름/연락처/종류/날짜/상태/관리 컬럼</li>
+    <li>필터: 상태별 (전체/접수/검토중/완료/보류)</li>
+    <li>상세 조회: 좌측 기본정보 + 우측 설명/메모</li>
+    <li>상태 변경: 셀렉트 → [저장] 버튼</li>
+    <li>데이터: localStorage에서 읽어 표시</li>
+  </ul>
+</div>
+
+<!-- ========== 5. 교육 관리 ========== -->
+<div class="section-divider">⑤ 교육 관리 (admin/lesson-admin.html)</div>
+<div style="background:#F5F5F5; padding:20px;">
+  <div class="cms-panel">
+    <div class="cms-panel-header">
+      <h3>강좌 목록 관리</h3>
+      <button class="btn-add">+ 강좌 추가</button>
+    </div>
+    <div class="cms-panel-body">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>카테고리</th>
+            <th>강좌명</th>
+            <th>강좌 수</th>
+            <th>총 시간</th>
+            <th>관리</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>디자인 방법론</td><td>Figma 초급</td><td>5과목</td><td>12h</td><td><button class="btn-edit">편집</button> <button class="btn-delete">삭제</button></td></tr>
+          <tr><td>디자인 방법론</td><td>Figma 중급</td><td>6과목</td><td>47h</td><td><button class="btn-edit">편집</button> <button class="btn-delete">삭제</button></td></tr>
+          <tr><td>HTML/CSS</td><td>HTML CSS 기초</td><td>8과목</td><td>24h</td><td><button class="btn-edit">편집</button> <button class="btn-delete">삭제</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="cms-panel">
+    <div class="cms-panel-header"><h3>강좌 편집 / 추가</h3></div>
+    <div class="cms-panel-body">
+      <div class="form-2col">
+        <div class="form-row"><label>카테고리</label>
+          <select class="form-input" style="height:38px;">
+            <option>디자인 방법론</option>
+            <option>UX UI 제작/조작</option>
+            <option>HTML/CSS</option>
+            <option>JavaScript/jQuery</option>
+          </select>
+        </div>
+        <div class="form-row"><label>강좌명</label><input type="text" class="form-input" value="Figma 초급"></div>
+      </div>
+      <div class="form-row">
+        <label>강좌 이미지</label>
+        <div style="display:flex; gap:12px; align-items:center;">
+          <div class="placeholder" style="width:120px; height:80px;">[이미지]</div>
+          <button class="btn-edit">이미지 업로드</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>커리큘럼 (과목명 | 시간)</label>
+        <div id="curriculum-list">
+          <div style="display:flex; gap:8px; margin-bottom:6px;">
+            <input type="text" class="form-input" value="피그마 인터페이스 소개" style="flex:1;">
+            <input type="text" class="form-input" value="2h" style="width:60px;">
+            <button class="btn-delete">✕</button>
+          </div>
+          <div style="display:flex; gap:8px; margin-bottom:6px;">
+            <input type="text" class="form-input" value="기본 도형 및 텍스트 편집" style="flex:1;">
+            <input type="text" class="form-input" value="3h" style="width:60px;">
+            <button class="btn-delete">✕</button>
+          </div>
+        </div>
+        <button class="btn-add" style="margin-top:8px;">+ 과목 추가</button>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary">저장</button>
+        <button class="btn-secondary">취소</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="annotation-panel">
+  <h4>■ 교육 관리 명세</h4>
+  <ul>
+    <li>강좌 목록 테이블 (카테고리/강좌명/과목수/시간/관리)</li>
+    <li>편집 패널: 카테고리 선택 + 강좌명 + 이미지 업로드 + 커리큘럼 동적 추가/삭제</li>
+    <li>커리큘럼: 과목명 텍스트 인풋 + 시간 인풋 + 삭제 버튼</li>
+    <li>[+ 과목 추가] 버튼으로 동적 행 추가</li>
+    <li>저장 시 localStorage 업데이트 → 교육 페이지에 반영</li>
+  </ul>
+</div>
+
+<!-- ========== 6. 포트폴리오 관리 ========== -->
+<div class="section-divider">⑥ 포트폴리오 관리 (admin/portfolio-admin.html)</div>
+<div style="background:#F5F5F5; padding:20px;">
+  <div class="cms-panel">
+    <div class="cms-panel-header">
+      <h3>포트폴리오 관리</h3>
+      <button class="btn-add">+ 항목 추가</button>
+    </div>
+    <div class="cms-panel-body">
+      <div class="img-manager" style="grid-template-columns: repeat(5,1fr);">
+        <div class="img-item">
+          <div class="placeholder" style="height:100px;">[썸네일]</div>
+          <div class="img-info">
+            <div class="img-name">웹기획 | 프로젝트A</div>
+            <div class="img-actions"><button class="btn-edit">편집</button><button class="btn-delete">삭제</button></div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="placeholder" style="height:100px;">[썸네일]</div>
+          <div class="img-info">
+            <div class="img-name">웹디자인 | 프로젝트B</div>
+            <div class="img-actions"><button class="btn-edit">편집</button><button class="btn-delete">삭제</button></div>
+          </div>
+        </div>
+        <div class="img-item">
+          <div class="placeholder" style="height:100px;">[썸네일]</div>
+          <div class="img-info">
+            <div class="img-name">웹개발 | 프로젝트C</div>
+            <div class="img-actions"><button class="btn-edit">편집</button><button class="btn-delete">삭제</button></div>
+          </div>
+        </div>
+        <div class="img-item" style="border:2px dashed #ddd; display:flex; align-items:center; justify-content:center; height:136px; cursor:pointer; color:#bbb;">
+          + 추가
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="annotation-panel">
+  <h4>■ 포트폴리오 관리 명세</h4>
+  <ul>
+    <li>썸네일 그리드 뷰 + 편집/삭제 버튼</li>
+    <li>항목 추가: 카테고리 선택 + 제목 + 썸네일 이미지 + 설명 + URL</li>
+    <li>드래그앤드롭으로 순서 변경 (추후 구현)</li>
+  </ul>
+</div>
+
+<div style="background:#333; color:#aaa; padding:16px 40px; font-size:11px; text-align:center; margin-top:0;">
+  삼마디자인 웹사이트 — 관리자 페이지 와이어프레임 |
+  <span style="color:#9B59B6;">■ CMS 관리 영역</span> 표시됨 |
+  작성일: 2026-02-16
+</div>
+
+</body>
+</html>

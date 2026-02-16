@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>삼마디자인 — 개발 문서 인덱스</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; background: #F5F5F5; color: #333; }
+  header { background: #1A1A1A; color: #fff; padding: 32px 48px; }
+  header h1 { font-size: 24px; font-weight: 300; margin-bottom: 6px; }
+  header h1 strong { font-weight: 900; color: #FF6B6B; }
+  header p { font-size: 13px; color: #888; }
+  .container { max-width: 900px; margin: 40px auto; padding: 0 24px; }
+  .section { margin-bottom: 40px; }
+  .section h2 { font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #888; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #ddd; }
+  .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .card { background: #fff; border: 1px solid #eee; padding: 20px 24px; text-decoration: none; color: inherit; display: block; transition: border-color 0.2s; }
+  .card:hover { border-color: #FF6B6B; }
+  .card .card-icon { font-size: 20px; margin-bottom: 10px; }
+  .card .card-title { font-size: 15px; font-weight: bold; margin-bottom: 6px; }
+  .card .card-desc { font-size: 12px; color: #888; line-height: 1.7; }
+  .card .card-meta { font-size: 11px; color: #bbb; margin-top: 10px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: bold; margin-left: 8px; }
+  .badge-done { background: #E8FFF0; color: #006622; }
+  .badge-pending { background: #FFF9E6; color: #CC8800; }
+  .badge-wip { background: #E8F4FF; color: #0066CC; }
+  .wf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .wf-card { background: #fff; border: 1px solid #eee; padding: 16px; text-decoration: none; color: inherit; display: block; }
+  .wf-card:hover { border-color: #1A1A1A; }
+  .wf-card .wf-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+  .wf-card .wf-label { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
+  .wf-card .wf-file { font-size: 11px; color: #bbb; font-family: monospace; }
+  footer { text-align: center; padding: 40px; color: #bbb; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><strong>SHAMMAH</strong> Design — 개발 문서</h1>
+  <p>삼마디자인 웹사이트 개발 기획 및 와이어프레임 문서 모음 | 작성일: 2026-02-16</p>
+</header>
+
+<div class="container">
+
+  <div class="section">
+    <h2>📋 기획 문서</h2>
+    <div class="card-grid">
+      <a href="planning/PRD.md" class="card">
+        <div class="card-icon">📄</div>
+        <div class="card-title">개발 기획서 (PRD) <span class="badge badge-done">완료</span></div>
+        <div class="card-desc">프로젝트 목적, 사이트 구조, 페이지별 요구사항, 관리자 시스템, 디자인 가이드, 기술 스택 및 납품 산출물 명세</div>
+        <div class="card-meta">docs/planning/PRD.md</div>
+      </a>
+      <a href="planning/PLAN.md" class="card">
+        <div class="card-icon">🗓️</div>
+        <div class="card-title">개발 계획서 <span class="badge badge-done">완료</span></div>
+        <div class="card-desc">폴더 구조, 개발 단계별 일정, 기술 구현 상세, 컴포넌트 명세, CSS 아키텍처, 전체 체크리스트</div>
+        <div class="card-meta">docs/planning/PLAN.md</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🖼️ 와이어프레임</h2>
+    <div class="wf-grid">
+      <a href="wireframes/wireframe-index.html" class="wf-card">
+        <div style="display:flex; align-items:center; margin-bottom:8px;">
+          <span class="wf-dot" style="background:#FF6B6B;"></span>
+          <span class="wf-label">인덱스</span>
+          <span class="badge badge-done" style="margin-left:auto;">레퍼런스 ✅</span>
+        </div>
+        <div class="wf-file">wireframe-index.html</div>
+        <div style="font-size:11px; color:#aaa; margin-top:6px;">GNB, 히어로, About, 포트폴리오 슬라이더, 교육 카드, 푸터</div>
+      </a>
+      <a href="wireframes/wireframe-lesson.html" class="wf-card">
+        <div style="display:flex; align-items:center; margin-bottom:8px;">
+          <span class="wf-dot" style="background:#4A9EFF;"></span>
+          <span class="wf-label">교육</span>
+          <span class="badge badge-done" style="margin-left:auto;">레퍼런스 ✅</span>
+        </div>
+        <div class="wf-file">wireframe-lesson.html</div>
+        <div style="font-size:11px; color:#aaa; margin-top:6px;">About 슬라이더, 포트폴리오, Invoice 탭, Lesson 카테고리</div>
+      </a>
+      <a href="wireframes/wireframe-quote.html" class="wf-card">
+        <div style="display:flex; align-items:center; margin-bottom:8px;">
+          <span class="wf-dot" style="background:#2EC866;"></span>
+          <span class="wf-label">견적 요청</span>
+          <span class="badge badge-wip" style="margin-left:auto;">자체 설계</span>
+        </div>
+        <div class="wf-file">wireframe-quote.html</div>
+        <div style="font-size:11px; color:#aaa; margin-top:6px;">히어로, 견적 폼, 사이드바 (연락처, 프로세스)</div>
+      </a>
+      <a href="wireframes/wireframe-freelancer.html" class="wf-card">
+        <div style="display:flex; align-items:center; margin-bottom:8px;">
+          <span class="wf-dot" style="background:#FF9B47;"></span>
+          <span class="wf-label">프리랜서 안내</span>
+          <span class="badge badge-pending" style="margin-left:auto;">레이아웃 대기</span>
+        </div>
+        <div class="wf-file">wireframe-freelancer.html</div>
+        <div style="font-size:11px; color:#aaa; margin-top:6px;">서비스 소개, 작업 프로세스, 요금표, CTA</div>
+      </a>
+      <a href="wireframes/wireframe-portfolio.html" class="wf-card">
+        <div style="display:flex; align-items:center; margin-bottom:8px;">
+          <span class="wf-dot" style="background:#5A7FFF;"></span>
+          <span class="wf-label">포트폴리오</span>
+          <span class="badge badge-pending" style="margin-left:auto;">레이아웃 대기</span>
+        </div>
+        <div class="wf-file">wireframe-portfolio.html</div>
+        <div style="font-size:11px; color:#aaa; margin-top:6px;">필터 탭, 3컬럼 그리드, 페이지네이션</div>
+      </a>
+      <a href="wireframes/wireframe-admin.html" class="wf-card">
+        <div style="display:flex; align-items:center; margin-bottom:8px;">
+          <span class="wf-dot" style="background:#9B59B6;"></span>
+          <span class="wf-label">관리자</span>
+          <span class="badge badge-done" style="margin-left:auto;">전체 설계</span>
+        </div>
+        <div class="wf-file">wireframe-admin.html</div>
+        <div style="font-size:11px; color:#aaa; margin-top:6px;">로그인, 사이드바, 인덱스관리, 교육관리, 견적목록, 포트폴리오관리</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📁 레퍼런스 이미지</h2>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🖼️</div>
+        <div class="card-title">인덱스 레이아웃</div>
+        <div class="card-desc">메인 홈페이지 레이아웃 레퍼런스. GNB, 히어로, About, 포트폴리오 슬라이더, 교육 카드, 다크 CTA 배너, 푸터 구성 확인.</div>
+        <div class="card-meta">reference/Index.png</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🖼️</div>
+        <div class="card-title">교육 레이아웃</div>
+        <div class="card-desc">교육 페이지 레이아웃 레퍼런스. About 슬라이더, 포트폴리오 슬라이더, Invoice 탭 슬라이더, Lesson 카테고리 + 강좌 카드.</div>
+        <div class="card-meta">reference/lesson.jpg</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>⚙️ 개발 현황</h2>
+    <table style="width:100%; background:#fff; border-collapse:collapse; font-size:13px;">
+      <thead>
+        <tr style="background:#1A1A1A; color:#fff;">
+          <th style="padding:10px 16px; text-align:left;">페이지</th>
+          <th style="padding:10px 16px; text-align:left;">레이아웃</th>
+          <th style="padding:10px 16px; text-align:left;">와이어프레임</th>
+          <th style="padding:10px 16px; text-align:left;">HTML 개발</th>
+          <th style="padding:10px 16px; text-align:left;">관리자</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 16px;">인덱스</td><td style="padding:10px 16px;"><span class="badge badge-done">확정</span></td><td style="padding:10px 16px;"><span class="badge badge-done">완료</span></td><td style="padding:10px 16px;"><span class="badge badge-pending">대기</span></td><td style="padding:10px 16px;"><span class="badge badge-pending">대기</span></td></tr>
+        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 16px;">교육</td><td style="padding:10px 16px;"><span class="badge badge-done">확정</span></td><td style="padding:10px 16px;"><span class="badge badge-done">완료</span></td><td style="padding:10px 16px;"><span class="badge badge-pending">대기</span></td><td style="padding:10px 16px;"><span class="badge badge-pending">대기</span></td></tr>
+        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 16px;">견적 요청</td><td style="padding:10px 16px;"><span class="badge badge-wip">자체설계</span></td><td style="padding:10px 16px;"><span class="badge badge-done">완료</span></td><td style="padding:10px 16px;"><span class="badge badge-pending">대기</span></td><td style="padding:10px 16px;"><span class="badge badge-pending">대기</span></td></tr>
+        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px 16px;">포트폴리오</td><td style="padding:10px 16px;"><span class="badge badge-pending">확정 대기</span></td><td style="padding:10px 16px;"><span class="badge badge-done">구조 완료</span></td><td style="padding:10px 16px;"><span class="badge badge-pending">대기</span></td><td style="padding:10px 16px;"><span class="badge badge-pending">대기</span></td></tr>
+        <tr><td style="padding:10px 16px;">프리랜서 안내</td><td style="padding:10px 16px;"><span class="badge badge-pending">확정 대기</span></td><td style="padding:10px 16px;"><span class="badge badge-done">구조 완료</span></td><td style="padding:10px 16px;"><span class="badge badge-pending">대기</span></td><td style="padding:10px 16px;"><span class="badge badge-pending">대기</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  삼마디자인 웹사이트 개발 문서 | 2026-02-16 작성
+</footer>
+
+</body>
+</html>

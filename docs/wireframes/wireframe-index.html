@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>와이어프레임 - 인덱스 | 삼마디자인</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Malgun Gothic', sans-serif; background: #f0f0f0; color: #333; }
+  .wf-note { background: #FFE066; border: 1px solid #E6C800; padding: 4px 8px; font-size: 11px; color: #5a4a00; border-radius: 3px; display: inline-block; }
+  .wf-label { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; display: block; }
+  .placeholder { background: #D9D9D9; border: 1px dashed #AAAAAA; display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px; }
+  .page-title { background: #333; color: #fff; padding: 12px 20px; font-size: 14px; font-weight: bold; position: sticky; top: 0; z-index: 999; display: flex; align-items: center; gap: 12px; }
+  .page-title .badge { background: #FF6B6B; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+
+  /* Layout */
+  .wf-page { max-width: 1280px; margin: 0 auto; background: #fff; }
+
+  /* GNB */
+  .wf-gnb { height: 60px; background: #1A1A1A; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
+  .wf-logo { background: #555; color: #fff; padding: 6px 20px; font-weight: bold; font-size: 14px; }
+  .wf-nav { display: flex; gap: 24px; }
+  .wf-nav a { color: #ccc; text-decoration: none; font-size: 13px; padding: 4px 8px; border-bottom: 2px solid transparent; }
+  .wf-nav a:hover, .wf-nav a.active { color: #FF6B6B; border-bottom-color: #FF6B6B; }
+  .wf-admin-btn { background: #555; color: #ccc; padding: 4px 12px; font-size: 12px; border: none; cursor: pointer; }
+
+  /* Hero */
+  .wf-hero { height: 580px; background: #222; position: relative; display: flex; align-items: flex-end; }
+  .wf-hero .bg-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #666; font-size: 18px; text-align: center; }
+  .wf-hero-content { position: relative; z-index: 1; padding: 60px; color: #fff; }
+  .wf-hero-content h1 { font-size: 36px; font-weight: 300; margin-bottom: 16px; }
+  .wf-hero-content h1 strong { font-weight: 900; }
+  .wf-hero-content p { font-size: 14px; color: #ccc; margin-bottom: 24px; }
+  .wf-btn { background: #FF6B6B; color: #fff; padding: 12px 32px; border: none; font-size: 14px; cursor: pointer; }
+  .wf-btn-outline { background: transparent; color: #fff; padding: 12px 32px; border: 1px solid #fff; font-size: 14px; cursor: pointer; margin-left: 12px; }
+
+  /* Section 공통 */
+  .wf-section { padding: 80px 60px; border-bottom: 1px solid #eee; position: relative; }
+  .wf-section-dark { background: #1A1A1A; color: #fff; }
+  .wf-section-gray { background: #F5F5F5; }
+
+  .section-head { text-align: center; margin-bottom: 48px; }
+  .section-title { font-size: 28px; font-weight: 300; margin-bottom: 8px; }
+  .section-title strong { font-weight: 900; }
+  .section-sub { font-size: 12px; color: #999; }
+  .section-desc { text-align: center; margin-top: 40px; font-size: 12px; color: #888; line-height: 1.8; }
+
+  /* About 섹션 */
+  .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .about-img { height: 340px; }
+  .about-text h3 { font-size: 14px; font-weight: bold; margin-bottom: 12px; color: #999; text-transform: uppercase; }
+  .about-text p { font-size: 13px; line-height: 1.9; color: #555; margin-bottom: 16px; }
+
+  /* 배너 섹션 (다크) */
+  .banner-layout { display: grid; grid-template-columns: 1fr auto; align-items: center; }
+  .banner-content h2 { font-size: 32px; font-weight: 300; color: #fff; }
+  .banner-content h2 strong { font-weight: 900; }
+  .banner-content p { font-size: 12px; color: #888; margin-top: 8px; }
+
+  /* 포트폴리오 슬라이더 */
+  .portfolio-slider { position: relative; }
+  .portfolio-slider-img { height: 420px; }
+  .portfolio-label-box { position: absolute; bottom: 0; right: 0; background: #1A1A1A; color: #fff; padding: 20px 32px; font-size: 20px; font-weight: 300; }
+  .portfolio-label-box strong { font-weight: 900; }
+  .slider-arrows { display: flex; gap: 8px; margin-top: 16px; }
+  .arrow { width: 36px; height: 36px; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; }
+
+  /* 카드 그리드 */
+  .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .wf-card .card-img { height: 200px; }
+  .wf-card .card-body { padding: 16px 0; }
+  .wf-card .card-cat { font-size: 11px; color: #FF6B6B; text-transform: uppercase; margin-bottom: 6px; }
+  .wf-card .card-title { font-size: 15px; font-weight: bold; margin-bottom: 8px; }
+  .wf-card .card-desc { font-size: 12px; color: #888; line-height: 1.7; }
+
+  /* 푸터 */
+  .wf-footer { background: #1A1A1A; color: #888; padding: 60px; }
+  .footer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin-bottom: 40px; }
+  .footer-col h4 { color: #ccc; font-size: 13px; margin-bottom: 12px; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { font-size: 12px; margin-bottom: 8px; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 8px; }
+  .footer-logo { background: #333; padding: 8px 20px; font-size: 14px; color: #ccc; }
+
+  /* CMS 어노테이션 */
+  .cms-tag { position: absolute; top: 8px; right: 8px; background: rgba(255,107,107,0.15); border: 1px solid #FF6B6B; color: #FF6B6B; font-size: 10px; padding: 2px 6px; border-radius: 3px; }
+  .cms-editable { outline: 2px dashed rgba(255,107,107,0.4); position: relative; }
+
+  /* 사이즈 가이드 */
+  .size-guide { position: absolute; right: -180px; top: 0; width: 160px; background: #FFF9E6; border: 1px solid #E6C800; padding: 8px; font-size: 10px; line-height: 1.8; color: #5a4a00; }
+  .size-guide h5 { font-size: 11px; margin-bottom: 4px; border-bottom: 1px solid #E6C800; padding-bottom: 4px; }
+
+  .wf-page-wrapper { position: relative; }
+
+  /* 주석 패널 */
+  .annotation-panel { background: #FFF9E6; border: 1px solid #E6C800; padding: 16px 20px; margin: 0; font-size: 12px; }
+  .annotation-panel h4 { font-size: 13px; margin-bottom: 8px; color: #5a4a00; }
+  .annotation-panel ul { padding-left: 16px; color: #7a6000; line-height: 1.9; }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  삼마디자인 | 와이어프레임
+  <span class="badge">인덱스 (index.html)</span>
+  <span style="margin-left:auto; font-size:11px; font-weight:normal; color:#aaa;">레퍼런스: reference/Index.png 참조</span>
+</div>
+
+<div class="wf-page">
+
+  <!-- ===== GNB ===== -->
+  <header class="wf-gnb" style="position:relative;">
+    <div class="cms-tag">CMS: 로고 이미지</div>
+    <div class="wf-logo">SHAMMAH</div>
+    <nav class="wf-nav">
+      <a href="#" class="active">인덱스</a>
+      <a href="#">프리랜서안내</a>
+      <a href="#">포트폴리오</a>
+      <a href="#">교육</a>
+      <a href="#">견적요청</a>
+    </nav>
+    <button class="wf-admin-btn">관리자</button>
+  </header>
+  <div class="annotation-panel">
+    <h4>■ GNB 명세</h4>
+    <ul>
+      <li>높이: 60px | 배경: #1A1A1A | position: sticky top:0</li>
+      <li>로고: 좌측 | 메뉴: 중앙 또는 우측 | 관리자 버튼: 최우측</li>
+      <li>현재 페이지 메뉴 활성 표시 (하단 컬러 라인)</li>
+      <li>스크롤 시 배경 변화 (투명 → 불투명) — JS 처리</li>
+      <li>모바일 768px 이하: 햄버거 메뉴로 전환</li>
+    </ul>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="wf-hero" style="position:relative;">
+    <div class="cms-tag">CMS: 배경이미지 / 제목 / 버튼</div>
+    <div class="bg-label">
+      [배경 이미지 영역]<br>
+      <span style="font-size:12px;">Full-width, height: 580px</span><br>
+      <span style="font-size:12px;">object-fit: cover</span>
+    </div>
+    <div class="wf-hero-content cms-editable">
+      <h1><strong>WEB DESIGN</strong><br>& DEVELOPMENT</h1>
+      <p>삼마디자인과 함께 만드는 특별한 웹 경험</p>
+      <button class="wf-btn">견적 요청하기</button>
+      <button class="wf-btn-outline">포트폴리오 보기</button>
+    </div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ 히어로 섹션 명세</h4>
+    <ul>
+      <li>높이: 580px (viewport의 80~100%) | overflow: hidden</li>
+      <li>배경: 이미지 + 오버레이 (rgba 0,0,0,0.4)</li>
+      <li>콘텐츠 위치: 좌하단 (padding: 60px)</li>
+      <li>CTA 버튼 2개: Primary(코랄) + Secondary(아웃라인)</li>
+    </ul>
+  </div>
+
+  <!-- ===== ABOUT 섹션 ===== -->
+  <section class="wf-section" style="position:relative;">
+    <div class="cms-tag">CMS: 이미지 / 텍스트</div>
+    <div class="section-head">
+      <div class="section-title"><strong>HEADLINE</strong> HERE</div>
+      <div class="section-sub">서브타이틀의 위치</div>
+    </div>
+    <div class="about-layout">
+      <div class="placeholder about-img cms-editable">[이미지 영역 340×440px]</div>
+      <div class="about-text cms-editable">
+        <h3>About SHAMMAH</h3>
+        <p>삼마디자인에 대한 소개 텍스트가 이곳에 들어갑니다. 회사의 철학, 비전, 역량에 대한 내용을 3~4 단락으로 구성합니다.</p>
+        <p>웹기획, 웹디자인, 웹개발, IT교육 서비스에 대한 핵심 메시지를 전달합니다.</p>
+        <p>고객과 함께 성장하는 삼마디자인의 가치를 담은 내용입니다.</p>
+      </div>
+    </div>
+    <div class="section-desc">
+      하단 설명 텍스트 영역 — 별도 메모나 추가 안내 문구가 들어가는 위치입니다. 좌우 중앙 정렬.
+    </div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ About 섹션 명세</h4>
+    <ul>
+      <li>2컬럼 레이아웃 (이미지 : 텍스트 = 1:1)</li>
+      <li>섹션 헤드: 중앙 정렬 제목 + 서브타이틀</li>
+      <li>제목 스타일: Bold + Light 혼합 (HEADLINE HERE 형태)</li>
+      <li>하단 설명텍스트: 좌우 중앙, 최대너비 700px</li>
+    </ul>
+  </div>
+
+  <!-- ===== 다크 CTA 배너 ===== -->
+  <section class="wf-section wf-section-dark" style="padding: 48px 60px;">
+    <div class="cms-tag" style="color:#FF6B6B;">CMS: 텍스트 / 버튼</div>
+    <div class="banner-layout">
+      <div class="banner-content cms-editable">
+        <h2><strong>HEADLINE</strong> HERE</h2>
+        <p>서브타이틀의 위치 — 배너 설명 문구</p>
+      </div>
+      <button class="wf-btn">버튼 텍스트</button>
+    </div>
+    <div class="section-desc" style="color:#555; margin-top:24px;">
+      하단 설명 텍스트 영역
+    </div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ CTA 배너 명세</h4>
+    <ul>
+      <li>배경: #1A1A1A | 좌우 2컬럼 (텍스트 : 버튼)</li>
+      <li>버튼: 코랄(#FF6B6B) 배경 | 우측 정렬</li>
+      <li>섹션 사이사이에 반복 배치 (Index.png 참조)</li>
+    </ul>
+  </div>
+
+  <!-- ===== 포트폴리오 섹션 (다크) ===== -->
+  <section class="wf-section wf-section-dark portfolio-slider" style="padding:0; position:relative;">
+    <div class="cms-tag" style="color:#FF6B6B; top:16px; right:16px;">CMS: 포트폴리오 이미지</div>
+    <div class="placeholder portfolio-slider-img cms-editable">
+      [포트폴리오 슬라이더 이미지 — 풀너비, 420px]
+    </div>
+    <div class="portfolio-label-box">
+      <strong>SHAMMAH</strong> Portfolio
+    </div>
+    <div style="padding: 20px 60px 48px; display:flex; justify-content: flex-end;">
+      <div class="slider-arrows">
+        <div class="arrow" style="background:#333; color:#fff;">‹</div>
+        <div class="arrow" style="background:#333; color:#fff;">›</div>
+      </div>
+    </div>
+    <div class="annotation-panel" style="background:#111; border-color:#333; margin:0 60px 48px;">
+      <h4 style="color:#aaa;">■ 포트폴리오 슬라이더 명세</h4>
+      <ul style="color:#666;">
+        <li>Swiper.js 라이브러리 적용</li>
+        <li>이미지: 풀너비 × 420px | 좌하단 텍스트 레이블</li>
+        <li>네비게이션 화살표: 우측 하단</li>
+        <li>자동 슬라이드: 4초 간격</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== 두 번째 CTA 배너 ===== -->
+  <section class="wf-section wf-section-dark" style="padding: 48px 60px;">
+    <div class="banner-layout">
+      <div class="banner-content">
+        <h2><strong>HEADLINE</strong> HERE</h2>
+        <p>서브타이틀의 위치</p>
+      </div>
+      <button class="wf-btn">버튼 텍스트</button>
+    </div>
+    <div class="section-desc" style="color:#555; margin-top:24px;">하단 설명 텍스트</div>
+  </section>
+
+  <!-- ===== 교육 카드 섹션 ===== -->
+  <section class="wf-section" style="position:relative;">
+    <div class="cms-tag">CMS: 카드 이미지 / 텍스트</div>
+    <div class="section-head">
+      <div class="section-title"><strong>HEADLINE</strong> HERE</div>
+      <div class="section-sub">서브타이틀의 위치</div>
+    </div>
+    <div class="card-grid">
+      <div class="wf-card cms-editable">
+        <div class="placeholder card-img">[카드 이미지 1]</div>
+        <div class="card-body">
+          <div class="card-cat">강좌 카테고리</div>
+          <div class="card-title">강좌 제목</div>
+          <div class="card-desc">강좌에 대한 간단한 설명이 들어갑니다. 2~3줄 분량.</div>
+        </div>
+      </div>
+      <div class="wf-card cms-editable">
+        <div class="placeholder card-img">[카드 이미지 2]</div>
+        <div class="card-body">
+          <div class="card-cat">강좌 카테고리</div>
+          <div class="card-title">강좌 제목</div>
+          <div class="card-desc">강좌에 대한 간단한 설명이 들어갑니다. 2~3줄 분량.</div>
+        </div>
+      </div>
+      <div class="wf-card cms-editable">
+        <div class="placeholder card-img">[카드 이미지 3]</div>
+        <div class="card-body">
+          <div class="card-cat">강좌 카테고리</div>
+          <div class="card-title">강좌 제목</div>
+          <div class="card-desc">강좌에 대한 간단한 설명이 들어갑니다. 2~3줄 분량.</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-desc">
+      하단 설명 텍스트 영역 — 좌우 중앙 정렬
+    </div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ 교육 카드 섹션 명세</h4>
+    <ul>
+      <li>3컬럼 그리드 | gap: 24px</li>
+      <li>카드 구성: 이미지(200px) + 카테고리 + 제목 + 설명</li>
+      <li>카테고리 색상: #FF6B6B</li>
+      <li>모바일: 1컬럼 스택</li>
+    </ul>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="wf-footer" style="position:relative;">
+    <div class="cms-tag" style="color:#FF6B6B;">CMS: 회사정보</div>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>SHAMMAH</h4>
+        <ul>
+          <li>인덱스</li>
+          <li>회사소개</li>
+          <li>연락처</li>
+          <li>오시는길</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>프리랜서</h4>
+        <ul>
+          <li>웹기획</li>
+          <li>웹디자인</li>
+          <li>웹개발</li>
+          <li>요금안내</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>포트폴리오</h4>
+        <ul>
+          <li>전체보기</li>
+          <li>웹기획</li>
+          <li>웹디자인</li>
+          <li>웹개발</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>교육</h4>
+        <ul>
+          <li>강좌목록</li>
+          <li>수강안내</li>
+          <li>강의일정</li>
+          <li>수강후기</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>견적 / 문의</h4>
+        <ul>
+          <li>견적요청</li>
+          <li>FAQ</li>
+          <li>이용약관</li>
+          <li>개인정보처리방침</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-logo">SHAMMAH</div>
+      <div style="font-size:11px;">Copyright © 2026 SHAMMAH Design. All rights reserved.</div>
+    </div>
+  </footer>
+  <div class="annotation-panel">
+    <h4>■ 푸터 명세</h4>
+    <ul>
+      <li>배경: #1A1A1A | 5컬럼 링크 그리드</li>
+      <li>하단 중앙: 로고 + 저작권</li>
+      <li>모바일: 2컬럼 또는 아코디언</li>
+    </ul>
+  </div>
+
+</div>
+
+<div style="background:#333; color:#aaa; padding:16px 40px; font-size:11px; text-align:center;">
+  삼마디자인 웹사이트 — 인덱스 와이어프레임 |
+  <span style="color:#FF6B6B;">■ CMS 관리 영역</span> 표시됨 |
+  작성일: 2026-02-16
+</div>
+
+</body>
+</html>

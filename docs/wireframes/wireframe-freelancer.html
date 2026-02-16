@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>와이어프레임 - 프리랜서 안내 | 삼마디자인</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Malgun Gothic', sans-serif; background: #f0f0f0; color: #333; }
+  .placeholder { background: #D9D9D9; border: 1px dashed #AAAAAA; display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px; text-align:center; }
+  .page-title { background: #333; color: #fff; padding: 12px 20px; font-size: 14px; font-weight: bold; position: sticky; top: 0; z-index: 999; display: flex; align-items: center; gap: 12px; }
+  .page-title .badge { background: #FF9B47; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .wf-page { max-width: 1280px; margin: 0 auto; background: #fff; }
+  .wf-gnb { height: 60px; background: #1A1A1A; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
+  .wf-logo { background: #555; color: #fff; padding: 6px 20px; font-weight: bold; font-size: 14px; }
+  .wf-nav { display: flex; gap: 24px; }
+  .wf-nav a { color: #ccc; text-decoration: none; font-size: 13px; padding: 4px 8px; border-bottom: 2px solid transparent; }
+  .wf-nav a.active { color: #FF6B6B; border-bottom-color: #FF6B6B; }
+  .wf-admin-btn { background: #555; color: #ccc; padding: 4px 12px; font-size: 12px; border: none; cursor: pointer; }
+  .wf-section { padding: 80px 60px; border-bottom: 1px solid #eee; position: relative; }
+  .wf-section-dark { background: #1A1A1A; color: #fff; }
+  .wf-section-gray { background: #F5F5F5; }
+  .cms-tag { position: absolute; top: 8px; right: 8px; background: rgba(255,155,71,0.15); border: 1px solid #FF9B47; color: #FF9B47; font-size: 10px; padding: 2px 6px; border-radius: 3px; }
+  .annotation-panel { background: #FFF4E6; border: 1px solid #FF9B47; padding: 16px 20px; font-size: 12px; }
+  .annotation-panel h4 { font-size: 13px; margin-bottom: 8px; color: #7A4000; }
+  .annotation-panel ul { padding-left: 16px; color: #9A5A00; line-height: 1.9; }
+  .section-head { text-align: center; margin-bottom: 48px; }
+  .section-title { font-size: 28px; font-weight: 300; margin-bottom: 8px; }
+  .section-title strong { font-weight: 900; }
+  .section-sub { font-size: 12px; color: #999; }
+  .section-desc { text-align: center; margin-top: 40px; font-size: 12px; color: #888; line-height: 1.8; }
+  .wf-btn { background: #FF6B6B; color: #fff; padding: 12px 32px; border: none; font-size: 14px; cursor: pointer; }
+
+  /* 히어로 */
+  .wf-hero { height: 400px; background: #222; display: flex; align-items: center; position: relative; }
+  .hero-content { position: relative; z-index: 1; padding: 60px; color: #fff; }
+  .hero-content h1 { font-size: 36px; font-weight: 300; margin-bottom: 16px; }
+  .hero-content h1 strong { font-weight: 900; }
+  .hero-content p { font-size: 13px; color: #aaa; margin-bottom: 24px; max-width: 500px; line-height: 1.8; }
+
+  /* 서비스 그리드 */
+  .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .service-card { text-align: center; padding: 32px 24px; border: 1px solid #eee; }
+  .service-icon { width: 60px; height: 60px; background: #F5F5F5; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .service-title { font-size: 16px; font-weight: bold; margin-bottom: 12px; }
+  .service-desc { font-size: 12px; color: #888; line-height: 1.8; }
+
+  /* 프로세스 */
+  .process-row { display: flex; gap: 0; }
+  .process-step { flex: 1; text-align: center; padding: 32px 20px; position: relative; }
+  .process-step::after { content: '→'; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-size: 20px; color: #ddd; }
+  .process-step:last-child::after { display: none; }
+  .step-num { width: 48px; height: 48px; background: #1A1A1A; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; margin: 0 auto 16px; }
+  .step-title { font-size: 13px; font-weight: bold; margin-bottom: 8px; }
+  .step-desc { font-size: 11px; color: #888; line-height: 1.7; }
+
+  /* 요금표 */
+  .price-table { width: 100%; border-collapse: collapse; }
+  .price-table th { background: #1A1A1A; color: #fff; padding: 14px 20px; font-size: 13px; text-align: left; }
+  .price-table td { padding: 12px 20px; border-bottom: 1px solid #eee; font-size: 13px; }
+  .price-table tr:nth-child(even) td { background: #FAFAFA; }
+  .price-highlight { color: #FF6B6B; font-weight: bold; }
+
+  /* CTA */
+  .cta-section { background: #1A1A1A; padding: 60px; text-align: center; color: #fff; }
+  .cta-section h2 { font-size: 28px; font-weight: 300; margin-bottom: 16px; }
+  .cta-section h2 strong { font-weight: 900; }
+  .cta-section p { font-size: 13px; color: #888; margin-bottom: 32px; }
+
+  /* 푸터 */
+  .wf-footer { background: #1A1A1A; color: #888; padding: 60px; }
+  .footer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin-bottom: 40px; }
+  .footer-col h4 { color: #ccc; font-size: 13px; margin-bottom: 12px; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { font-size: 12px; margin-bottom: 8px; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 8px; }
+  .footer-logo { background: #333; padding: 8px 20px; font-size: 14px; color: #ccc; }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  삼마디자인 | 와이어프레임
+  <span class="badge">프리랜서 안내 (freelancer.html)</span>
+  <span style="margin-left:auto; font-size:11px; font-weight:normal; color:#aaa;">레이아웃 확정 후 개발 예정 (구조 선설계)</span>
+</div>
+
+<div class="wf-page">
+  <header class="wf-gnb">
+    <div class="wf-logo">SHAMMAH</div>
+    <nav class="wf-nav">
+      <a href="#">인덱스</a>
+      <a href="#" class="active">프리랜서안내</a>
+      <a href="#">포트폴리오</a>
+      <a href="#">교육</a>
+      <a href="#">견적요청</a>
+    </nav>
+    <button class="wf-admin-btn">관리자</button>
+  </header>
+
+  <!-- 히어로 -->
+  <section class="wf-hero" style="position:relative;">
+    <div class="cms-tag">CMS: 배경이미지 / 텍스트</div>
+    <div class="hero-content">
+      <h1><strong>FREELANCER</strong><br>서비스 안내</h1>
+      <p>삼마디자인의 전문 프리랜서 서비스를 소개합니다.<br>웹기획부터 개발까지 One-stop 서비스를 제공합니다.</p>
+      <button class="wf-btn">견적 요청하기</button>
+    </div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ 히어로 명세</h4>
+    <ul><li>높이: 400px | 배경 이미지 + 오버레이 | 좌측 정렬 콘텐츠</li></ul>
+  </div>
+
+  <!-- 서비스 소개 -->
+  <section class="wf-section" style="position:relative;">
+    <div class="cms-tag">CMS: 서비스 아이콘/텍스트</div>
+    <div class="section-head">
+      <div class="section-title"><strong>SHAMMAH</strong> Services</div>
+      <div class="section-sub">삼마디자인이 제공하는 전문 서비스</div>
+    </div>
+    <div class="service-grid">
+      <div class="service-card">
+        <div class="service-icon">📋</div>
+        <div class="service-title">웹기획</div>
+        <div class="service-desc">사용자 경험(UX)을 중심으로 한 체계적인 웹 기획 서비스. 정보구조 설계, 와이어프레임, 프로토타입 제작.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎨</div>
+        <div class="service-title">웹디자인</div>
+        <div class="service-desc">브랜드 아이덴티티를 반영한 감각적인 웹 디자인. UI 디자인, 반응형 레이아웃, 디자인 시스템.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">💻</div>
+        <div class="service-title">웹개발</div>
+        <div class="service-desc">HTML/CSS 퍼블리싱부터 풀스택 개발까지. 모던 기술 스택 적용, 성능 최적화, CMS 연동.</div>
+      </div>
+    </div>
+    <div class="section-desc">하단 설명 텍스트 영역</div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ 서비스 소개 섹션 명세</h4>
+    <ul>
+      <li>3컬럼 카드 그리드 (아이콘 + 제목 + 설명)</li>
+      <li>CMS: 아이콘 이미지, 제목, 설명 텍스트 관리</li>
+    </ul>
+  </div>
+
+  <!-- 작업 프로세스 -->
+  <section class="wf-section wf-section-gray" style="position:relative;">
+    <div class="cms-tag">CMS: 프로세스 텍스트</div>
+    <div class="section-head">
+      <div class="section-title"><strong>WORK</strong> Process</div>
+      <div class="section-sub">프로젝트 진행 단계</div>
+    </div>
+    <div class="process-row">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-title">상담 / 견적</div>
+        <div class="step-desc">프로젝트 요구사항 파악 및 견적서 제공</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-title">기획</div>
+        <div class="step-desc">정보구조 설계 및 와이어프레임 제작</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-title">디자인</div>
+        <div class="step-desc">UI 디자인 및 시안 검토</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <div class="step-title">개발</div>
+        <div class="step-desc">퍼블리싱 및 기능 개발</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">05</div>
+        <div class="step-title">납품</div>
+        <div class="step-desc">최종 검수 및 파일 납품</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 요금 안내 -->
+  <section class="wf-section" style="position:relative;">
+    <div class="cms-tag">CMS: 요금 정보</div>
+    <div class="section-head">
+      <div class="section-title"><strong>SERVICE</strong> Pricing</div>
+      <div class="section-sub">기본 서비스 요금 안내 (프로젝트 규모에 따라 협의)</div>
+    </div>
+    <table class="price-table">
+      <thead>
+        <tr>
+          <th>서비스 항목</th>
+          <th>기본 범위</th>
+          <th>기본 요금</th>
+          <th>기간</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>웹기획</td><td>페이지 10개 이하</td><td class="price-highlight">100만원~</td><td>1~2주</td></tr>
+        <tr><td>웹디자인</td><td>페이지 5개 이하</td><td class="price-highlight">150만원~</td><td>2~3주</td></tr>
+        <tr><td>웹개발 (퍼블리싱)</td><td>페이지 5개 이하</td><td class="price-highlight">100만원~</td><td>1~2주</td></tr>
+        <tr><td>웹개발 (풀스택)</td><td>기본 기능 포함</td><td class="price-highlight">300만원~</td><td>4~8주</td></tr>
+        <tr><td>통합 (기획+디자인+개발)</td><td>5페이지 이하</td><td class="price-highlight">400만원~</td><td>6~10주</td></tr>
+      </tbody>
+    </table>
+    <div class="section-desc">※ 위 요금은 기본 안내 요금으로, 실제 프로젝트 규모와 요구사항에 따라 달라질 수 있습니다. 상세 견적은 견적 요청을 통해 문의해 주세요.</div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" style="position:relative;">
+    <div class="cms-tag" style="color:#FF6B6B;">CMS: CTA 텍스트</div>
+    <h2>프로젝트를 <strong>시작</strong>하고 싶으신가요?</h2>
+    <p>삼마디자인에게 견적을 문의해 주세요. 빠른 시간 내에 답변 드리겠습니다.</p>
+    <button class="wf-btn">견적 요청하기</button>
+  </section>
+
+  <!-- 푸터 -->
+  <footer class="wf-footer">
+    <div class="footer-grid">
+      <div class="footer-col"><h4>SHAMMAH</h4><ul><li>인덱스</li><li>회사소개</li><li>연락처</li></ul></div>
+      <div class="footer-col"><h4>프리랜서</h4><ul><li>웹기획</li><li>웹디자인</li><li>웹개발</li></ul></div>
+      <div class="footer-col"><h4>포트폴리오</h4><ul><li>전체보기</li><li>웹기획</li><li>웹디자인</li></ul></div>
+      <div class="footer-col"><h4>교육</h4><ul><li>강좌목록</li><li>수강안내</li></ul></div>
+      <div class="footer-col"><h4>견적 / 문의</h4><ul><li>견적요청</li><li>FAQ</li><li>이용약관</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-logo">SHAMMAH</div>
+      <div style="font-size:11px;">Copyright © 2026 SHAMMAH Design. All rights reserved.</div>
+    </div>
+  </footer>
+</div>
+
+<div style="background:#333; color:#aaa; padding:16px 40px; font-size:11px; text-align:center;">
+  삼마디자인 — 프리랜서 안내 와이어프레임 | 레이아웃 확정 후 개발 예정 | 작성일: 2026-02-16
+</div>
+</body>
+</html>

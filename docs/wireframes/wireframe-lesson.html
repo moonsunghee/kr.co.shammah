@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>와이어프레임 - 교육 | 삼마디자인</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Malgun Gothic', sans-serif; background: #f0f0f0; color: #333; }
+  .placeholder { background: #D9D9D9; border: 1px dashed #AAAAAA; display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px; text-align:center; }
+  .page-title { background: #333; color: #fff; padding: 12px 20px; font-size: 14px; font-weight: bold; position: sticky; top: 0; z-index: 999; display: flex; align-items: center; gap: 12px; }
+  .page-title .badge { background: #4A9EFF; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .wf-page { max-width: 1280px; margin: 0 auto; background: #fff; }
+  .wf-gnb { height: 60px; background: #1A1A1A; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
+  .wf-logo { background: #555; color: #fff; padding: 6px 20px; font-weight: bold; font-size: 14px; }
+  .wf-nav { display: flex; gap: 24px; }
+  .wf-nav a { color: #ccc; text-decoration: none; font-size: 13px; padding: 4px 8px; border-bottom: 2px solid transparent; }
+  .wf-nav a.active { color: #FF6B6B; border-bottom-color: #FF6B6B; }
+  .wf-admin-btn { background: #555; color: #ccc; padding: 4px 12px; font-size: 12px; border: none; cursor: pointer; }
+  .wf-section { padding: 80px 60px; border-bottom: 1px solid #eee; position: relative; }
+  .wf-section-dark { background: #1A1A1A; color: #fff; }
+  .cms-tag { position: absolute; top: 8px; right: 8px; background: rgba(74,158,255,0.15); border: 1px solid #4A9EFF; color: #4A9EFF; font-size: 10px; padding: 2px 6px; border-radius: 3px; }
+  .annotation-panel { background: #E8F4FF; border: 1px solid #4A9EFF; padding: 16px 20px; font-size: 12px; }
+  .annotation-panel h4 { font-size: 13px; margin-bottom: 8px; color: #003A80; }
+  .annotation-panel ul { padding-left: 16px; color: #005AB8; line-height: 1.9; }
+  .section-head { margin-bottom: 48px; }
+  .section-title { font-size: 28px; font-weight: 300; margin-bottom: 8px; }
+  .section-title strong { font-weight: 900; }
+  .section-sub { font-size: 12px; color: #999; }
+  .section-desc { margin-top: 40px; font-size: 12px; color: #888; line-height: 1.8; text-align: center; }
+  .wf-btn { background: #FF6B6B; color: #fff; padding: 12px 32px; border: none; font-size: 14px; cursor: pointer; }
+
+  /* About 영역 */
+  .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .about-slider { display: flex; gap: 16px; align-items: center; }
+  .about-slider-arrow { width: 36px; height: 36px; background: #ddd; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+  .about-main-img { flex: 1; height: 400px; }
+  .about-text h2 { font-size: 24px; font-weight: 300; margin-bottom: 20px; }
+  .about-text h2 strong { font-weight: 900; }
+  .about-text p { font-size: 13px; line-height: 1.9; color: #555; margin-bottom: 12px; }
+
+  /* Portfolio 슬라이더 */
+  .portfolio-full { height: 360px; width: 100%; position: relative; }
+  .portfolio-label { position: absolute; bottom: 0; right: 0; background: #1A1A1A; color: #fff; padding: 16px 28px; font-size: 18px; font-weight: 300; }
+  .portfolio-label strong { font-weight: 900; }
+  .slider-nav { display: flex; justify-content: space-between; padding: 16px 60px; background: #f9f9f9; }
+  .slider-arrow { width: 36px; height: 36px; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
+
+  /* Invoice 섹션 */
+  .invoice-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .invoice-tab { padding: 6px 16px; background: #eee; border: none; font-size: 12px; cursor: pointer; }
+  .invoice-tab.active { background: #1A1A1A; color: #fff; }
+  .invoice-slider { display: flex; gap: 16px; align-items: center; }
+  .invoice-card { flex: 0 0 calc(33.333% - 12px); }
+  .invoice-card .card-img { height: 200px; }
+  .invoice-card .card-body { padding: 12px 0; }
+  .invoice-card .card-title { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+  .invoice-card .card-price { font-size: 13px; color: #FF6B6B; }
+
+  /* Lesson 섹션 */
+  .lesson-layout { display: grid; grid-template-columns: 200px 1fr; gap: 32px; }
+  .lesson-sidebar { border: 1px solid #eee; }
+  .lesson-cat-item { padding: 12px 16px; border-bottom: 1px solid #eee; font-size: 13px; cursor: pointer; }
+  .lesson-cat-item.active { background: #1A1A1A; color: #fff; font-weight: bold; }
+  .lesson-content { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .lesson-card { border: 1px solid #eee; overflow: hidden; }
+  .lesson-card-img { height: 180px; }
+  .lesson-card-body { padding: 16px; }
+  .lesson-card-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; }
+  .lesson-course-item { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #f0f0f0; font-size: 12px; }
+  .lesson-course-item:last-child { border-bottom: none; }
+  .lesson-tag { background: #1A1A1A; color: #fff; font-size: 11px; padding: 2px 8px; display: inline-block; margin-top: 8px; }
+
+  /* 푸터 */
+  .wf-footer { background: #1A1A1A; color: #888; padding: 60px; }
+  .footer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin-bottom: 40px; }
+  .footer-col h4 { color: #ccc; font-size: 13px; margin-bottom: 12px; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { font-size: 12px; margin-bottom: 8px; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 8px; }
+  .footer-logo { background: #333; padding: 8px 20px; font-size: 14px; color: #ccc; }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  삼마디자인 | 와이어프레임
+  <span class="badge">교육 (lesson.html)</span>
+  <span style="margin-left:auto; font-size:11px; font-weight:normal; color:#aaa;">레퍼런스: reference/lesson.jpg 참조</span>
+</div>
+
+<div class="wf-page">
+
+  <!-- GNB -->
+  <header class="wf-gnb">
+    <div class="wf-logo">SHAMMAH</div>
+    <nav class="wf-nav">
+      <a href="#">인덱스</a>
+      <a href="#">프리랜서안내</a>
+      <a href="#">포트폴리오</a>
+      <a href="#" class="active">교육</a>
+      <a href="#">견적요청</a>
+    </nav>
+    <button class="wf-admin-btn">관리자</button>
+  </header>
+
+  <!-- ===== ABOUT 섹션 ===== -->
+  <section class="wf-section" style="padding-top: 60px; position:relative;">
+    <div class="cms-tag">CMS: 이미지 슬라이더 / 텍스트</div>
+    <div class="about-layout">
+      <div>
+        <div class="about-slider">
+          <div class="about-slider-arrow">‹</div>
+          <div class="placeholder about-main-img">[슬라이더 이미지<br>420×400px]</div>
+          <div class="about-slider-arrow">›</div>
+        </div>
+      </div>
+      <div class="about-text">
+        <h2>About <strong>SHAMMAH</strong></h2>
+        <p>삼마디자인은 디자인과 기술이 공존하는, 새로운 접근 방법으로 서비스를 제공합니다. 클라이언트의 비전을 공유하고 이를 실현하는 것이 저희의 목표입니다.</p>
+        <p>웹기획부터 디자인, 개발까지 통합적인 서비스를 제공하며, IT교육을 통해 디지털 역량 강화에 기여하고 있습니다.</p>
+        <p>삼마디자인은 고객과 함께 성장하는 파트너입니다. 귀사의 성공이 곧 삼마디자인의 성공입니다.</p>
+      </div>
+    </div>
+    <div class="section-desc">
+      하단 설명 텍스트 영역 — 좌우 중앙 정렬, 최대 너비 700px
+    </div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ About 섹션 명세</h4>
+    <ul>
+      <li>2컬럼: 좌측 슬라이더 이미지 + 우측 텍스트</li>
+      <li>이미지 슬라이더: 화살표 네비게이션 포함</li>
+      <li>제목 스타일: About <strong>SHAMMAH</strong> (Bold 혼합)</li>
+    </ul>
+  </div>
+
+  <!-- ===== PORTFOLIO 섹션 ===== -->
+  <section style="position:relative;">
+    <div class="cms-tag">CMS: 포트폴리오 이미지 슬라이더</div>
+    <div class="placeholder portfolio-full" style="position:relative;">
+      [포트폴리오 슬라이더 — 풀너비 × 360px]
+      <div class="portfolio-label">
+        <strong>SHAMMAH</strong> Portfolio
+      </div>
+    </div>
+    <div class="slider-nav">
+      <div class="slider-arrow">‹</div>
+      <div class="slider-arrow">›</div>
+    </div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ 포트폴리오 슬라이더 명세</h4>
+    <ul>
+      <li>풀너비 × 360px | Swiper.js 적용</li>
+      <li>좌하단 "SHAMMAH Portfolio" 레이블 오버레이</li>
+      <li>화살표: 슬라이더 좌우 양쪽 또는 하단 배치</li>
+    </ul>
+  </div>
+
+  <!-- ===== INVOICE 섹션 ===== -->
+  <section class="wf-section" style="position:relative;">
+    <div class="cms-tag">CMS: 요금 정보</div>
+    <div class="section-head" style="text-align:center;">
+      <div class="section-title"><strong>SHAMMAH</strong> Invoice</div>
+      <div class="section-sub">서브타이틀의 위치</div>
+    </div>
+    <div class="invoice-tabs">
+      <button class="invoice-tab active">웹 / 기획</button>
+      <button class="invoice-tab">웹 디자인</button>
+      <button class="invoice-tab">웹 개발 (퍼블)</button>
+      <button class="invoice-tab">웹 개발 (풀스택)</button>
+      <button class="invoice-tab">교육 / 강좌</button>
+      <button class="invoice-tab">유지보수</button>
+    </div>
+    <div class="invoice-slider" style="align-items: stretch;">
+      <div class="slider-arrow">‹</div>
+      <div class="invoice-card">
+        <div class="placeholder card-img">[요금 카드 이미지 1]</div>
+        <div class="card-body">
+          <div class="card-title">서비스 항목명</div>
+          <div class="card-price">가격 표시</div>
+        </div>
+      </div>
+      <div class="invoice-card">
+        <div class="placeholder card-img">[요금 카드 이미지 2]</div>
+        <div class="card-body">
+          <div class="card-title">서비스 항목명</div>
+          <div class="card-price">가격 표시</div>
+        </div>
+      </div>
+      <div class="invoice-card">
+        <div class="placeholder card-img">[요금 카드 이미지 3]</div>
+        <div class="card-body">
+          <div class="card-title">서비스 항목명</div>
+          <div class="card-price">가격 표시</div>
+        </div>
+      </div>
+      <div class="slider-arrow">›</div>
+    </div>
+    <div class="section-desc">하단 설명 텍스트 영역</div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ Invoice 섹션 명세</h4>
+    <ul>
+      <li>상단 탭 필터: 웹기획 / 웹디자인 / 웹개발(퍼블) / 웹개발(풀스택) / 교육 / 유지보수</li>
+      <li>탭 전환 시 해당 요금 카드 슬라이더 노출</li>
+      <li>카드 3개 노출 (슬라이더로 더보기)</li>
+    </ul>
+  </div>
+
+  <!-- ===== LESSON 섹션 ===== -->
+  <section class="wf-section" style="position:relative;">
+    <div class="cms-tag">CMS: 강좌 목록</div>
+    <div class="section-head" style="text-align:center;">
+      <div class="section-title"><strong>SHAMMAH</strong> Lesson</div>
+      <div class="section-sub">강좌를 선택한 후에 하단의 내용을 확인하여 원하는 강좌 목록을 선택합니다</div>
+    </div>
+    <div class="lesson-layout">
+      <!-- 좌측 카테고리 -->
+      <div class="lesson-sidebar">
+        <div class="lesson-cat-item active">디자인 방법론</div>
+        <div class="lesson-cat-item">UX UI 제작/조작</div>
+        <div class="lesson-cat-item">HTML/CSS</div>
+        <div class="lesson-cat-item">JavaScript/jQuery</div>
+        <div class="lesson-cat-item">JavaScript/React</div>
+        <div class="lesson-cat-item">파이썬</div>
+        <div class="lesson-cat-item">업무효율/보조</div>
+      </div>
+      <!-- 우측 강좌 카드 -->
+      <div class="lesson-content">
+        <div class="lesson-card">
+          <div class="placeholder lesson-card-img">[강좌 이미지 — Figma 기초]</div>
+          <div class="lesson-card-body">
+            <div class="lesson-card-title">Figma 초급</div>
+            <div class="lesson-course-item">
+              <span>피그마 인터페이스 소개</span><span>2h</span>
+            </div>
+            <div class="lesson-course-item">
+              <span>기본 도형 및 텍스트 편집</span><span>3h</span>
+            </div>
+            <div class="lesson-course-item">
+              <span>컴포넌트 기초</span><span>2h</span>
+            </div>
+            <div class="lesson-course-item">
+              <span>프레임 & 레이아웃</span><span>3h</span>
+            </div>
+            <div class="lesson-course-item">
+              <span>프로토타입 기초</span><span>2h</span>
+            </div>
+            <div class="lesson-tag">Figma 초급</div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="placeholder lesson-card-img">[강좌 이미지 — Figma 중급]</div>
+          <div class="lesson-card-body">
+            <div class="lesson-card-title">Figma 중급 (웹 앱 디자인 전략)</div>
+            <div class="lesson-course-item">
+              <span>디자인 시스템 구축</span><span>4h</span>
+            </div>
+            <div class="lesson-course-item">
+              <span>오토 레이아웃 심화</span><span>3h</span>
+            </div>
+            <div class="lesson-course-item">
+              <span>Variables & Tokens</span><span>3h</span>
+            </div>
+            <div class="lesson-course-item">
+              <span>반응형 디자인</span><span>4h</span>
+            </div>
+            <div class="lesson-course-item">
+              <span>실무 프로젝트</span><span>29-32h</span>
+            </div>
+            <div class="lesson-tag">Figma 중급</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-desc">하단 설명 텍스트 영역</div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ Lesson 섹션 명세</h4>
+    <ul>
+      <li>2컬럼 레이아웃: 좌측 카테고리 사이드바(200px) + 우측 강좌 카드 그리드</li>
+      <li>카테고리 7개: 디자인방법론 / UX UI / HTML-CSS / JS-jQuery / JS-React / Python / 업무효율</li>
+      <li>카테고리 클릭 시 해당 강좌 카드 노출 (탭 전환)</li>
+      <li>강좌 카드: 이미지 + 제목 + 커리큘럼 목록 + 태그</li>
+      <li>커리큘럼: 과목명 — 시간(h) 형식</li>
+    </ul>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="wf-footer">
+    <div class="footer-grid">
+      <div class="footer-col"><h4>SHAMMAH</h4><ul><li>인덱스</li><li>회사소개</li><li>연락처</li></ul></div>
+      <div class="footer-col"><h4>프리랜서</h4><ul><li>웹기획</li><li>웹디자인</li><li>웹개발</li></ul></div>
+      <div class="footer-col"><h4>포트폴리오</h4><ul><li>전체보기</li><li>웹기획</li><li>웹디자인</li></ul></div>
+      <div class="footer-col"><h4>교육</h4><ul><li>강좌목록</li><li>수강안내</li><li>강의일정</li></ul></div>
+      <div class="footer-col"><h4>견적 / 문의</h4><ul><li>견적요청</li><li>FAQ</li><li>이용약관</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-logo">SHAMMAH</div>
+      <div style="font-size:11px;">Copyright © 2026 SHAMMAH Design. All rights reserved.</div>
+    </div>
+  </footer>
+
+</div>
+
+<div style="background:#333; color:#aaa; padding:16px 40px; font-size:11px; text-align:center;">
+  삼마디자인 웹사이트 — 교육 와이어프레임 |
+  <span style="color:#4A9EFF;">■ CMS 관리 영역</span> 표시됨 |
+  작성일: 2026-02-16
+</div>
+
+</body>
+</html>

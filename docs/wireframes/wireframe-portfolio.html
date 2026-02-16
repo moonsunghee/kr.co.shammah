@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>와이어프레임 - 포트폴리오 | 삼마디자인</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Malgun Gothic', sans-serif; background: #f0f0f0; color: #333; }
+  .placeholder { background: #D9D9D9; border: 1px dashed #AAAAAA; display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px; text-align:center; }
+  .page-title { background: #333; color: #fff; padding: 12px 20px; font-size: 14px; font-weight: bold; position: sticky; top: 0; z-index: 999; display: flex; align-items: center; gap: 12px; }
+  .page-title .badge { background: #5A7FFF; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .wf-page { max-width: 1280px; margin: 0 auto; background: #fff; }
+  .wf-gnb { height: 60px; background: #1A1A1A; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
+  .wf-logo { background: #555; color: #fff; padding: 6px 20px; font-weight: bold; font-size: 14px; }
+  .wf-nav { display: flex; gap: 24px; }
+  .wf-nav a { color: #ccc; text-decoration: none; font-size: 13px; padding: 4px 8px; border-bottom: 2px solid transparent; }
+  .wf-nav a.active { color: #FF6B6B; border-bottom-color: #FF6B6B; }
+  .wf-admin-btn { background: #555; color: #ccc; padding: 4px 12px; font-size: 12px; border: none; cursor: pointer; }
+  .wf-section { padding: 80px 60px; border-bottom: 1px solid #eee; position: relative; }
+  .cms-tag { position: absolute; top: 8px; right: 8px; background: rgba(90,127,255,0.15); border: 1px solid #5A7FFF; color: #5A7FFF; font-size: 10px; padding: 2px 6px; border-radius: 3px; }
+  .annotation-panel { background: #EEF2FF; border: 1px solid #5A7FFF; padding: 16px 20px; font-size: 12px; }
+  .annotation-panel h4 { font-size: 13px; margin-bottom: 8px; color: #001A80; }
+  .annotation-panel ul { padding-left: 16px; color: #1A3ACC; line-height: 1.9; }
+  .section-head { text-align: center; margin-bottom: 40px; }
+  .section-title { font-size: 28px; font-weight: 300; margin-bottom: 8px; }
+  .section-title strong { font-weight: 900; }
+  .section-sub { font-size: 12px; color: #999; }
+  .wf-btn { background: #FF6B6B; color: #fff; padding: 12px 32px; border: none; font-size: 14px; cursor: pointer; }
+
+  /* 히어로 */
+  .wf-hero { height: 360px; background: #222; display: flex; align-items: center; justify-content: center; flex-direction: column; color: #fff; text-align: center; position: relative; }
+  .wf-hero h1 { font-size: 36px; font-weight: 300; margin-bottom: 12px; }
+  .wf-hero h1 strong { font-weight: 900; }
+  .wf-hero p { font-size: 13px; color: #aaa; }
+
+  /* 필터 탭 */
+  .filter-tabs { display: flex; justify-content: center; gap: 0; margin-bottom: 40px; border-bottom: 2px solid #eee; }
+  .filter-tab { padding: 12px 28px; background: transparent; border: none; font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; color: #888; }
+  .filter-tab.active { color: #1A1A1A; border-bottom-color: #1A1A1A; font-weight: bold; }
+
+  /* 포트폴리오 그리드 */
+  .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .pf-card { border: 1px solid #eee; overflow: hidden; cursor: pointer; }
+  .pf-card .pf-img { height: 220px; position: relative; }
+  .pf-card .pf-img .overlay { position: absolute; inset: 0; background: rgba(26,26,26,0); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; transition: background 0.3s; }
+  .pf-card:hover .pf-img .overlay { background: rgba(26,26,26,0.7); }
+  .pf-card .pf-info { padding: 16px; }
+  .pf-card .pf-cat { font-size: 11px; color: #FF6B6B; text-transform: uppercase; margin-bottom: 6px; }
+  .pf-card .pf-title { font-size: 14px; font-weight: bold; margin-bottom: 6px; }
+  .pf-card .pf-desc { font-size: 12px; color: #888; line-height: 1.6; }
+
+  /* 페이지네이션 */
+  .pagination { display: flex; justify-content: center; gap: 4px; margin-top: 48px; }
+  .pag-btn { width: 36px; height: 36px; background: #eee; border: none; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .pag-btn.active { background: #1A1A1A; color: #fff; }
+
+  /* 푸터 */
+  .wf-footer { background: #1A1A1A; color: #888; padding: 60px; }
+  .footer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin-bottom: 40px; }
+  .footer-col h4 { color: #ccc; font-size: 13px; margin-bottom: 12px; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { font-size: 12px; margin-bottom: 8px; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 8px; }
+  .footer-logo { background: #333; padding: 8px 20px; font-size: 14px; color: #ccc; }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  삼마디자인 | 와이어프레임
+  <span class="badge">포트폴리오 (portfolio.html)</span>
+  <span style="margin-left:auto; font-size:11px; font-weight:normal; color:#aaa;">레이아웃 확정 후 개발 예정 (구조 선설계)</span>
+</div>
+
+<div class="wf-page">
+  <header class="wf-gnb">
+    <div class="wf-logo">SHAMMAH</div>
+    <nav class="wf-nav">
+      <a href="#">인덱스</a>
+      <a href="#">프리랜서안내</a>
+      <a href="#" class="active">포트폴리오</a>
+      <a href="#">교육</a>
+      <a href="#">견적요청</a>
+    </nav>
+    <button class="wf-admin-btn">관리자</button>
+  </header>
+
+  <!-- 히어로 -->
+  <section class="wf-hero" style="position:relative;">
+    <div class="cms-tag">CMS: 배경이미지</div>
+    <div style="position:absolute; inset:0; background:rgba(0,0,0,0.5);"></div>
+    <div style="position:relative; z-index:1;">
+      <h1><strong>SHAMMAH</strong> Portfolio</h1>
+      <p>삼마디자인의 작업 포트폴리오를 확인하세요</p>
+    </div>
+  </section>
+
+  <!-- 포트폴리오 목록 -->
+  <section class="wf-section" style="position:relative;">
+    <div class="cms-tag">CMS: 포트폴리오 항목 관리</div>
+    <div class="filter-tabs">
+      <button class="filter-tab active">전체</button>
+      <button class="filter-tab">웹기획</button>
+      <button class="filter-tab">웹디자인</button>
+      <button class="filter-tab">웹개발</button>
+    </div>
+
+    <div class="portfolio-grid">
+      <div class="pf-card">
+        <div class="placeholder pf-img" style="position:relative;">[포트폴리오 썸네일 1]<div class="overlay">🔗 사이트 보기</div></div>
+        <div class="pf-info"><div class="pf-cat">웹디자인</div><div class="pf-title">프로젝트 제목A</div><div class="pf-desc">프로젝트 간략 설명</div></div>
+      </div>
+      <div class="pf-card">
+        <div class="placeholder pf-img" style="position:relative;">[포트폴리오 썸네일 2]<div class="overlay">🔗 사이트 보기</div></div>
+        <div class="pf-info"><div class="pf-cat">웹개발</div><div class="pf-title">프로젝트 제목B</div><div class="pf-desc">프로젝트 간략 설명</div></div>
+      </div>
+      <div class="pf-card">
+        <div class="placeholder pf-img" style="position:relative;">[포트폴리오 썸네일 3]<div class="overlay">🔗 사이트 보기</div></div>
+        <div class="pf-info"><div class="pf-cat">웹기획</div><div class="pf-title">프로젝트 제목C</div><div class="pf-desc">프로젝트 간략 설명</div></div>
+      </div>
+      <div class="pf-card">
+        <div class="placeholder pf-img" style="position:relative;">[포트폴리오 썸네일 4]<div class="overlay">🔗 사이트 보기</div></div>
+        <div class="pf-info"><div class="pf-cat">웹디자인</div><div class="pf-title">프로젝트 제목D</div><div class="pf-desc">프로젝트 간략 설명</div></div>
+      </div>
+      <div class="pf-card">
+        <div class="placeholder pf-img" style="position:relative;">[포트폴리오 썸네일 5]<div class="overlay">🔗 사이트 보기</div></div>
+        <div class="pf-info"><div class="pf-cat">웹개발</div><div class="pf-title">프로젝트 제목E</div><div class="pf-desc">프로젝트 간략 설명</div></div>
+      </div>
+      <div class="pf-card">
+        <div class="placeholder pf-img" style="position:relative;">[포트폴리오 썸네일 6]<div class="overlay">🔗 사이트 보기</div></div>
+        <div class="pf-info"><div class="pf-cat">웹기획</div><div class="pf-title">프로젝트 제목F</div><div class="pf-desc">프로젝트 간략 설명</div></div>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button class="pag-btn">‹</button>
+      <button class="pag-btn active">1</button>
+      <button class="pag-btn">2</button>
+      <button class="pag-btn">3</button>
+      <button class="pag-btn">›</button>
+    </div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ 포트폴리오 섹션 명세</h4>
+    <ul>
+      <li>상단 필터 탭: 전체/웹기획/웹디자인/웹개발 — 클릭 시 해당 카테고리만 노출</li>
+      <li>카드 구성: 썸네일(220px) + 카테고리 + 제목 + 설명</li>
+      <li>썸네일 hover: 오버레이 + 링크 아이콘</li>
+      <li>페이지네이션: 9개씩 노출 (3×3 그리드)</li>
+      <li>데이터: localStorage에서 로드 (관리자에서 추가/수정/삭제)</li>
+    </ul>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="wf-footer">
+    <div class="footer-grid">
+      <div class="footer-col"><h4>SHAMMAH</h4><ul><li>인덱스</li><li>회사소개</li></ul></div>
+      <div class="footer-col"><h4>프리랜서</h4><ul><li>웹기획</li><li>웹디자인</li></ul></div>
+      <div class="footer-col"><h4>포트폴리오</h4><ul><li>전체보기</li><li>웹기획</li></ul></div>
+      <div class="footer-col"><h4>교육</h4><ul><li>강좌목록</li></ul></div>
+      <div class="footer-col"><h4>견적 / 문의</h4><ul><li>견적요청</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-logo">SHAMMAH</div>
+      <div style="font-size:11px;">Copyright © 2026 SHAMMAH Design. All rights reserved.</div>
+    </div>
+  </footer>
+</div>
+
+<div style="background:#333; color:#aaa; padding:16px 40px; font-size:11px; text-align:center;">
+  삼마디자인 — 포트폴리오 와이어프레임 | 레이아웃 확정 후 개발 예정 | 작성일: 2026-02-16
+</div>
+</body>
+</html>

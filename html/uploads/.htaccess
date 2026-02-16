@@ -1,0 +1,8 @@
+# uploads 폴더 - PHP 실행 차단 (보안)
+<FilesMatch "\.php$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+Options -ExecCGI
+AddHandler cgi-script .php .pl .py .jsp .asp .htm .shtml .sh .cgi

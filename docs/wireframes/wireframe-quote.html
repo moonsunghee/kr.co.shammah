@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>와이어프레임 - 견적 요청 | 삼마디자인</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Malgun Gothic', sans-serif; background: #f0f0f0; color: #333; }
+  .placeholder { background: #D9D9D9; border: 1px dashed #AAAAAA; display: flex; align-items: center; justify-content: center; color: #888; font-size: 12px; text-align:center; }
+  .page-title { background: #333; color: #fff; padding: 12px 20px; font-size: 14px; font-weight: bold; position: sticky; top: 0; z-index: 999; display: flex; align-items: center; gap: 12px; }
+  .page-title .badge { background: #2EC866; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+  .wf-page { max-width: 1280px; margin: 0 auto; background: #fff; }
+  .wf-gnb { height: 60px; background: #1A1A1A; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
+  .wf-logo { background: #555; color: #fff; padding: 6px 20px; font-weight: bold; font-size: 14px; }
+  .wf-nav { display: flex; gap: 24px; }
+  .wf-nav a { color: #ccc; text-decoration: none; font-size: 13px; padding: 4px 8px; border-bottom: 2px solid transparent; }
+  .wf-nav a.active { color: #FF6B6B; border-bottom-color: #FF6B6B; }
+  .wf-admin-btn { background: #555; color: #ccc; padding: 4px 12px; font-size: 12px; border: none; cursor: pointer; }
+  .wf-section { padding: 80px 60px; border-bottom: 1px solid #eee; position: relative; }
+  .wf-section-dark { background: #1A1A1A; color: #fff; }
+  .cms-tag { position: absolute; top: 8px; right: 8px; background: rgba(46,200,102,0.15); border: 1px solid #2EC866; color: #2EC866; font-size: 10px; padding: 2px 6px; border-radius: 3px; }
+  .annotation-panel { background: #E8FFF0; border: 1px solid #2EC866; padding: 16px 20px; font-size: 12px; }
+  .annotation-panel h4 { font-size: 13px; margin-bottom: 8px; color: #006622; }
+  .annotation-panel ul { padding-left: 16px; color: #008833; line-height: 1.9; }
+  .section-head { text-align: center; margin-bottom: 48px; }
+  .section-title { font-size: 28px; font-weight: 300; margin-bottom: 8px; }
+  .section-title strong { font-weight: 900; }
+  .section-sub { font-size: 12px; color: #999; }
+  .wf-btn { background: #FF6B6B; color: #fff; padding: 12px 32px; border: none; font-size: 14px; cursor: pointer; }
+
+  /* 히어로 */
+  .wf-hero { height: 320px; background: #222; display: flex; align-items: center; justify-content: center; position: relative; flex-direction: column; color: #fff; text-align: center; }
+  .wf-hero h1 { font-size: 32px; font-weight: 300; margin-bottom: 12px; }
+  .wf-hero h1 strong { font-weight: 900; }
+  .wf-hero p { font-size: 13px; color: #aaa; }
+  .wf-hero .bg-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+
+  /* 폼 섹션 */
+  .quote-layout { display: grid; grid-template-columns: 1fr 360px; gap: 48px; }
+  .form-section h3 { font-size: 16px; font-weight: bold; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #1A1A1A; }
+  .form-row { margin-bottom: 20px; }
+  .form-row label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 6px; color: #555; }
+  .form-row label .required { color: #FF6B6B; margin-left: 2px; }
+  .form-input { width: 100%; height: 42px; background: #F5F5F5; border: 1px solid #ddd; padding: 0 12px; font-size: 13px; }
+  .form-input:focus { outline: 2px solid #FF6B6B; border-color: #FF6B6B; }
+  .form-textarea { width: 100%; height: 120px; background: #F5F5F5; border: 1px solid #ddd; padding: 12px; font-size: 13px; resize: vertical; }
+  .form-select { width: 100%; height: 42px; background: #F5F5F5; border: 1px solid #ddd; padding: 0 12px; font-size: 13px; }
+  .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .checkbox-item { display: flex; align-items: center; gap: 6px; background: #F5F5F5; padding: 6px 12px; border: 1px solid #ddd; cursor: pointer; font-size: 12px; }
+  .checkbox-item input { width: 14px; height: 14px; }
+  .file-upload { border: 2px dashed #ddd; padding: 24px; text-align: center; background: #F9F9F9; cursor: pointer; }
+  .file-upload p { font-size: 12px; color: #999; margin-top: 8px; }
+  .privacy-box { background: #F5F5F5; border: 1px solid #ddd; padding: 16px; font-size: 11px; line-height: 1.8; color: #666; height: 100px; overflow-y: auto; }
+  .privacy-agree { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 12px; }
+  .submit-btn { width: 100%; background: #1A1A1A; color: #fff; padding: 16px; border: none; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 24px; }
+  .submit-btn:hover { background: #FF6B6B; }
+
+  /* 사이드 박스 */
+  .quote-sidebar { }
+  .sidebar-box { border: 1px solid #eee; padding: 24px; margin-bottom: 24px; }
+  .sidebar-box h4 { font-size: 14px; font-weight: bold; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #eee; }
+  .info-item { display: flex; gap: 8px; margin-bottom: 12px; align-items: flex-start; }
+  .info-icon { width: 32px; height: 32px; background: #F5F5F5; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .info-text p { font-size: 11px; color: #999; margin-bottom: 2px; }
+  .info-text strong { font-size: 13px; }
+  .process-step { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+  .step-num { width: 28px; height: 28px; background: #1A1A1A; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0; border-radius: 50%; }
+  .step-text strong { font-size: 13px; display: block; margin-bottom: 2px; }
+  .step-text p { font-size: 11px; color: #888; }
+
+  /* 푸터 */
+  .wf-footer { background: #1A1A1A; color: #888; padding: 60px; }
+  .footer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin-bottom: 40px; }
+  .footer-col h4 { color: #ccc; font-size: 13px; margin-bottom: 12px; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { font-size: 12px; margin-bottom: 8px; }
+  .footer-bottom { border-top: 1px solid #333; padding-top: 24px; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 8px; }
+  .footer-logo { background: #333; padding: 8px 20px; font-size: 14px; color: #ccc; }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  삼마디자인 | 와이어프레임
+  <span class="badge">견적 요청 (quote.html)</span>
+  <span style="margin-left:auto; font-size:11px; font-weight:normal; color:#aaa;">레이아웃 자체 설계</span>
+</div>
+
+<div class="wf-page">
+
+  <!-- GNB -->
+  <header class="wf-gnb">
+    <div class="wf-logo">SHAMMAH</div>
+    <nav class="wf-nav">
+      <a href="#">인덱스</a>
+      <a href="#">프리랜서안내</a>
+      <a href="#">포트폴리오</a>
+      <a href="#">교육</a>
+      <a href="#" class="active">견적요청</a>
+    </nav>
+    <button class="wf-admin-btn">관리자</button>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="wf-hero" style="position:relative;">
+    <div class="cms-tag" style="z-index:2;">CMS: 배경이미지</div>
+    <div class="bg-overlay"></div>
+    <div style="position:relative; z-index:1;">
+      <h1><strong>SHAMMAH</strong> Quote</h1>
+      <p>프로젝트 견적을 요청해 주세요. 빠른 시간 내에 답변 드리겠습니다.</p>
+    </div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ 히어로 섹션 명세</h4>
+    <ul>
+      <li>높이: 320px | 배경 이미지 + 오버레이 (반투명 다크)</li>
+      <li>중앙 정렬: 제목 + 서브 문구</li>
+    </ul>
+  </div>
+
+  <!-- ===== 견적 폼 섹션 ===== -->
+  <section class="wf-section" style="position:relative;">
+    <div class="cms-tag">CMS: 히어로 텍스트 (관리)</div>
+    <div class="section-head">
+      <div class="section-title"><strong>SHAMMAH</strong> Invoice</div>
+      <div class="section-sub">프로젝트 정보를 입력하시면 담당자가 검토 후 연락드립니다</div>
+    </div>
+
+    <div class="quote-layout">
+      <!-- 폼 영역 -->
+      <div class="form-section">
+        <h3>의뢰인 정보</h3>
+        <div class="form-2col">
+          <div class="form-row">
+            <label>의뢰인명 <span class="required">*</span></label>
+            <input type="text" class="form-input" placeholder="홍길동">
+          </div>
+          <div class="form-row">
+            <label>회사 / 기관명</label>
+            <input type="text" class="form-input" placeholder="(주)회사명">
+          </div>
+        </div>
+        <div class="form-2col">
+          <div class="form-row">
+            <label>연락처 <span class="required">*</span></label>
+            <input type="tel" class="form-input" placeholder="010-0000-0000">
+          </div>
+          <div class="form-row">
+            <label>이메일 <span class="required">*</span></label>
+            <input type="email" class="form-input" placeholder="example@email.com">
+          </div>
+        </div>
+
+        <h3 style="margin-top:32px;">프로젝트 정보</h3>
+        <div class="form-row">
+          <label>의뢰 종류 <span class="required">*</span></label>
+          <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox"> 웹기획</label>
+            <label class="checkbox-item"><input type="checkbox"> 웹디자인</label>
+            <label class="checkbox-item"><input type="checkbox"> 웹개발 (퍼블리싱)</label>
+            <label class="checkbox-item"><input type="checkbox"> 웹개발 (풀스택)</label>
+            <label class="checkbox-item"><input type="checkbox"> IT교육</label>
+            <label class="checkbox-item"><input type="checkbox"> 기타</label>
+          </div>
+        </div>
+        <div class="form-2col">
+          <div class="form-row">
+            <label>예산 범위</label>
+            <select class="form-select">
+              <option>선택해 주세요</option>
+              <option>100만원 미만</option>
+              <option>100 ~ 300만원</option>
+              <option>300 ~ 500만원</option>
+              <option>500만원 이상</option>
+              <option>협의</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>희망 완료일</label>
+            <input type="date" class="form-input">
+          </div>
+        </div>
+        <div class="form-row">
+          <label>참고 사이트 URL</label>
+          <input type="text" class="form-input" placeholder="https://example.com">
+        </div>
+        <div class="form-row">
+          <label>프로젝트 설명 <span class="required">*</span></label>
+          <textarea class="form-textarea" placeholder="프로젝트에 대한 상세한 내용을 입력해 주세요.&#10;(목적, 대상, 참고 자료, 특이사항 등)" style="height:160px;"></textarea>
+        </div>
+        <div class="form-row">
+          <label>파일 첨부</label>
+          <div class="file-upload">
+            <div style="font-size:24px; color:#ccc;">📎</div>
+            <p>파일을 드래그하거나 클릭하여 업로드</p>
+            <p>허용 형식: PDF, DOC, PPT, ZIP (최대 10MB)</p>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>개인정보 수집 및 이용 동의 <span class="required">*</span></label>
+          <div class="privacy-box">
+            [개인정보처리방침 내용]<br>
+            수집 항목: 이름, 연락처, 이메일<br>
+            수집 목적: 견적 상담 및 서비스 제공<br>
+            보유 기간: 상담 완료 후 1년<br>
+            귀하는 개인정보 수집 및 이용에 동의하지 않을 수 있으며,<br>
+            동의 거부 시 서비스 이용이 제한될 수 있습니다.
+          </div>
+          <label class="privacy-agree">
+            <input type="checkbox">
+            개인정보 수집 및 이용에 동의합니다. (필수)
+          </label>
+        </div>
+        <button class="submit-btn">견적 요청 제출</button>
+      </div>
+
+      <!-- 사이드바 -->
+      <div class="quote-sidebar">
+        <div class="sidebar-box">
+          <h4>연락처 정보</h4>
+          <div class="info-item">
+            <div class="info-icon">📞</div>
+            <div class="info-text">
+              <p>전화 문의</p>
+              <strong>010-0000-0000</strong>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">✉️</div>
+            <div class="info-text">
+              <p>이메일 문의</p>
+              <strong>info@shammah.kr</strong>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">⏰</div>
+            <div class="info-text">
+              <p>상담 시간</p>
+              <strong>평일 09:00 ~ 18:00</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-box">
+          <h4>견적 진행 프로세스</h4>
+          <div class="process-step">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>견적 요청 접수</strong>
+              <p>양식 작성 및 제출</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>내용 검토</strong>
+              <p>담당자 프로젝트 분석 (1~2일)</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <strong>견적서 발송</strong>
+              <p>상세 견적서 이메일/연락 제공</p>
+            </div>
+          </div>
+          <div class="process-step">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <strong>협의 및 계약</strong>
+              <p>세부 조율 후 계약 진행</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-box" style="background: #1A1A1A; border-color: #333;">
+          <h4 style="color:#fff;">빠른 상담</h4>
+          <p style="font-size:12px; color:#888; margin-bottom:16px;">카카오톡 채널로 빠른 상담이 가능합니다</p>
+          <button style="width:100%; background:#FFE000; color:#3A1D00; border:none; padding:12px; font-size:13px; font-weight:bold; cursor:pointer;">
+            카카오채널 상담하기
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="annotation-panel">
+    <h4>■ 견적 폼 섹션 명세</h4>
+    <ul>
+      <li>2컬럼 레이아웃: 좌측 폼(1fr) + 우측 사이드바(360px)</li>
+      <li>폼 필드: 의뢰인명*, 회사명, 연락처*, 이메일*, 의뢰종류*(체크박스), 예산범위, 희망완료일, 참고URL, 설명*, 파일첨부</li>
+      <li>개인정보 동의 체크박스 필수</li>
+      <li>제출 버튼: localStorage에 데이터 저장 + 완료 메시지</li>
+      <li>사이드바: 연락처 정보 / 진행 프로세스 / 카카오 상담</li>
+      <li>클라이언트 사이드 유효성 검사 (JS)</li>
+    </ul>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="wf-footer">
+    <div class="footer-grid">
+      <div class="footer-col"><h4>SHAMMAH</h4><ul><li>인덱스</li><li>회사소개</li><li>연락처</li></ul></div>
+      <div class="footer-col"><h4>프리랜서</h4><ul><li>웹기획</li><li>웹디자인</li><li>웹개발</li></ul></div>
+      <div class="footer-col"><h4>포트폴리오</h4><ul><li>전체보기</li><li>웹기획</li><li>웹디자인</li></ul></div>
+      <div class="footer-col"><h4>교육</h4><ul><li>강좌목록</li><li>수강안내</li></ul></div>
+      <div class="footer-col"><h4>견적 / 문의</h4><ul><li>견적요청</li><li>FAQ</li><li>이용약관</li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-logo">SHAMMAH</div>
+      <div style="font-size:11px;">Copyright © 2026 SHAMMAH Design. All rights reserved.</div>
+    </div>
+  </footer>
+
+</div>
+
+<div style="background:#333; color:#aaa; padding:16px 40px; font-size:11px; text-align:center;">
+  삼마디자인 웹사이트 — 견적 요청 와이어프레임 |
+  <span style="color:#2EC866;">■ CMS 관리 영역</span> 표시됨 |
+  작성일: 2026-02-16
+</div>
+
+</body>
+</html>
