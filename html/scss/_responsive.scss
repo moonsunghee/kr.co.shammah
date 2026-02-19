@@ -1,0 +1,97 @@
+@use 'variables' as *;
+
+// ============================================
+//   Responsive
+// ============================================
+
+// Tablet
+@media (max-width: $bp-tablet) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer__inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+// Mobile
+@media (max-width: $bp-mobile) {
+  // GNB
+  .gnb__hamburger {
+    display: flex;
+  }
+
+  .gnb__nav {
+    display: none;
+    position: absolute;
+    top: $gnb-height;
+    left: 0;
+    right: 0;
+    background: $white;
+    border-bottom: 1px solid $border;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+    padding: 16px 0;
+
+    &.open {
+      display: block;
+    }
+  }
+
+  .gnb__menu {
+    flex-direction: column;
+    gap: 0;
+
+    a {
+      display: block;
+      padding: 12px $padding-x;
+      font-size: 1rem;
+
+      &.active::after {
+        display: none;
+      }
+    }
+  }
+
+  .gnb__admin-btn {
+    display: none;
+  }
+
+  // Hero
+  .hero {
+    min-height: 320px;
+  }
+
+  .hero__title {
+    font-size: 1.8rem;
+  }
+
+  .hero--sub {
+    min-height: 200px;
+  }
+
+  // Container
+  .container {
+    padding: 48px $padding-x;
+
+    > header {
+      margin-bottom: 32px;
+
+      > h3 {
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  // Grids
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  // Footer
+  .footer__nav ul {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

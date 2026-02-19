@@ -1,0 +1,74 @@
+@use 'variables' as *;
+
+// --- Buttons ---
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  font-size: .9rem;
+  font-weight: 600;
+  border-radius: $radius-sm;
+  border: 1px solid transparent;
+  transition: all $transition-fast;
+  text-align: center;
+  background: $gray;
+  color: $text;
+
+  &:hover {
+    background: #e8e8e8;
+  }
+
+  &--primary {
+    background: $primary;
+    color: $white;
+    border-color: $primary;
+
+    &:hover {
+      background: $primary-hover;
+    }
+  }
+
+  &--outline {
+    background: transparent;
+    color: $white;
+    border-color: $white;
+
+    &:hover {
+      background: rgba(255, 255, 255, .15);
+    }
+  }
+
+  &--outline-white {
+    background: transparent;
+    color: $white;
+    border-color: rgba(255, 255, 255, .5);
+
+    &:hover {
+      background: rgba(255, 255, 255, .1);
+      border-color: $white;
+    }
+  }
+
+  &--lg {
+    padding: 14px 36px;
+    font-size: 1rem;
+  }
+
+  &--sm {
+    padding: 6px 14px;
+    font-size: .8rem;
+  }
+
+  &--full {
+    width: 100%;
+  }
+
+  &--danger {
+    background: $danger;
+    color: $white;
+    border-color: $danger;
+
+    &:hover {
+      background: $danger-hover;
+    }
+  }
+}

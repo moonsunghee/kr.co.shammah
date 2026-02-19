@@ -1,0 +1,50 @@
+// ============================================
+//   Design System Variables
+// ============================================
+
+// Colors
+$primary: #FF6B6B;
+$primary-hover: #e85c5c;
+$dark: #1A1A1A;
+$gray: #F5F5F5;
+$text: #333;
+$text-sub: #999;
+$text-light: #555;
+$text-muted: #666;
+$white: #fff;
+$border: #eee;
+$border-light: #ddd;
+$danger: #e74c3c;
+$danger-hover: #c0392b;
+
+// Typography
+// 영문: Europa (자체 호스팅 – scss/_fonts.scss)
+// 한글 본문: Noto Sans KR / 한글 제목: Noto Serif KR (Google Fonts CDN)
+$font-family: 'Europa', 'Noto Sans KR', sans-serif;
+$font-serif:  'Europa', 'Noto Serif KR', serif;
+$line-height: 1.6;
+
+// Layout
+$max-width: 1200px;
+$narrow-width: 720px;
+$gnb-height: 60px;
+$padding-x: 24px;
+
+// Breakpoints
+$bp-tablet: 1199px;
+$bp-mobile: 767px;
+
+// Shadows
+$shadow-sm: 0 2px 12px rgba(0, 0, 0, .08);
+$shadow-md: 0 8px 24px rgba(0, 0, 0, .1);
+$shadow-card: 0 8px 24px rgba(0, 0, 0, .08);
+
+// Border Radius
+$radius-sm: 6px;
+$radius-md: 12px;
+$radius-full: 24px;
+
+// Transitions
+$transition-fast: .2s;
+$transition-normal: .25s;
+$transition-slow: .3s;

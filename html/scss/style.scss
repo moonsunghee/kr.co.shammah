@@ -1,0 +1,22 @@
+/* ============================================
+   SHAMMAH Global Stylesheet
+   Design System:
+     Primary: #FF6B6B | Dark: #1A1A1A | Gray: #F5F5F5
+     Text: #333 | Sub: #999
+     Font: Europa (EN) + Noto Sans KR / Noto Serif KR (KO)
+     Max-width: 1200px | GNB: 60px sticky
+   ============================================ */
+
+@use 'variables' as *;
+@use 'fonts';
+@use 'reset';
+@use 'common';
+@use 'gnb';
+@use 'hero';
+@use 'container';
+@use 'buttons';
+@use 'cards';
+@use 'grids';
+@use 'alert';
+@use 'footer';
+@use 'responsive';

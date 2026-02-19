@@ -1,0 +1,72 @@
+/* freelancer.css – Freelancer page styles */
+
+.service {
+  background-color: #efefef;
+
+  .service-grid {
+    width: 1200px;
+    max-width: 90%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+
+    .service-card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 40px 28px;
+      text-align: center;
+      transition: transform .25s, box-shadow .25s;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+      }
+
+      .service-card__icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 107, 107, .08);
+        border-radius: 50%;
+        font-size: 1.5rem;
+        color: #FF6B6B;
+      }
+
+      h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #1A1A1A;
+      }
+
+      p {
+        font-size: .9rem;
+        color: #666;
+        line-height: 1.6;
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 1199px) {
+  .service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .service-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .service-card {
+    padding: 28px 20px;
+  }
+}

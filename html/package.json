@@ -1,0 +1,12 @@
+{
+  "name": "shammah-website",
+  "version": "1.0.0",
+  "description": "삼마디자인 웹사이트",
+  "scripts": {
+    "build": "sass scss/style.scss css/style.css --no-source-map --style=expanded && sass scss/pages/:css/pages/ --no-source-map --style=expanded",
+    "watch": "sass --watch scss/style.scss:css/style.css scss/pages/:css/pages/ --no-source-map --style=expanded"
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}

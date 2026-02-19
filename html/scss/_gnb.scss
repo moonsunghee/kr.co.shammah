@@ -1,0 +1,117 @@
+@use 'variables' as *;
+
+// --- GNB ---
+.gnb {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: $gnb-height;
+  background: rgba(255, 255, 255, .95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid $border;
+  transition: background $transition-slow, box-shadow $transition-slow;
+
+  &.scrolled {
+    background: $white;
+    box-shadow: $shadow-sm;
+  }
+
+  &__inner {
+    max-width: $max-width;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 $padding-x;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    img {
+      height: 32px;
+    }
+  }
+
+  &__nav {
+    display: flex;
+  }
+
+  &__menu {
+    display: flex;
+    gap: 32px;
+
+    a {
+      font-size: .95rem;
+      font-weight: 500;
+      color: $text-light;
+      padding: 4px 0;
+      transition: color $transition-fast;
+      position: relative;
+
+      &:hover,
+      &.active {
+        color: $primary;
+      }
+
+      &.active::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: $primary;
+        border-radius: 1px;
+      }
+    }
+  }
+
+  &__admin-btn {
+    font-size: .8rem;
+    font-weight: 600;
+    color: $primary;
+    border: 1px solid $primary;
+    padding: 4px 12px;
+    border-radius: 4px;
+    transition: background $transition-fast, color $transition-fast;
+
+    &:hover {
+      background: $primary;
+      color: $white;
+    }
+  }
+
+  // Hamburger
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    padding: 4px;
+
+    span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: $text;
+      border-radius: 2px;
+      transition: transform $transition-slow, opacity $transition-slow;
+    }
+
+    &.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    &.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    &.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+}

@@ -1,0 +1,82 @@
+@use 'variables' as *;
+
+// --- Cards ---
+.card {
+  background: $white;
+  border-radius: $radius-md;
+  overflow: hidden;
+  transition: transform $transition-normal, box-shadow $transition-normal;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-md;
+  }
+
+  &__thumb {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: $gray;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform $transition-slow;
+    }
+  }
+
+  &:hover &__thumb img {
+    transform: scale(1.05);
+  }
+
+  &__thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #eee, #ddd);
+  }
+
+  &__info {
+    padding: 20px;
+  }
+
+  &__category {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 600;
+    color: $primary;
+    background: rgba(255, 107, 107, .08);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+
+  &__title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: $dark;
+  }
+
+  &__desc {
+    font-size: .88rem;
+    color: $text-muted;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  &__link {
+    font-size: .85rem;
+    color: $primary;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__meta {
+    font-size: .82rem;
+    color: $text-sub;
+  }
+}

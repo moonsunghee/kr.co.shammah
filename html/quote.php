@@ -82,8 +82,7 @@ include 'includes/header.php';
 </section>
 
 <!-- Quote Form -->
-<section class="section section--quote">
-  <div class="section__inner section__inner--narrow">
+<div class="container container--narrow quote">
 
     <?php if ($success): ?>
     <div class="alert alert--success">
@@ -189,7 +188,6 @@ include 'includes/header.php';
     </form>
     <?php endif; ?>
 
-  </div>
-</section>
+</div>
 
 <?php include 'includes/footer.php'; ?>

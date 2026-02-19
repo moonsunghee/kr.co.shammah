@@ -22,39 +22,36 @@ include 'includes/header.php';
 </section>
 
 <!-- 서비스 소개 -->
-<section class="section">
-  <div class="section__inner">
-    <div class="section__head">
-      <h2 class="section__title"><strong>SERVICE</strong></h2>
-      <p class="section__sub">삼마디자인이 제공하는 서비스</p>
-    </div>
-    <div class="section__body service-grid">
-      <!-- 서비스 항목은 추후 DB 연동 또는 정적으로 구성 -->
-      <div class="service-card">
-        <div class="service-card__icon"><i class="fa-solid fa-sitemap"></i></div>
-        <h3>웹기획</h3>
-        <p>사용자 경험을 중심으로 한 체계적인 웹 기획</p>
-      </div>
-      <div class="service-card">
-        <div class="service-card__icon"><i class="fa-solid fa-palette"></i></div>
-        <h3>웹디자인</h3>
-        <p>감각적이고 브랜드에 맞는 UI/UX 디자인</p>
-      </div>
-      <div class="service-card">
-        <div class="service-card__icon"><i class="fa-solid fa-code"></i></div>
-        <h3>웹개발</h3>
-        <p>반응형 퍼블리싱 및 풀스택 웹 개발</p>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="container service">
+  <header>
+    <h3><strong>SERVICE</strong></h3>
+    <p>삼마디자인이 제공하는 서비스</p>
+  </header>
+  <section class="service-grid">
+    <article class="service-card">
+      <div class="service-card__icon"><i class="fa-solid fa-sitemap"></i></div>
+      <h4>웹기획</h4>
+      <p>사용자 경험을 중심으로 한 체계적인 웹 기획</p>
+    </article>
+    <article class="service-card">
+      <div class="service-card__icon"><i class="fa-solid fa-palette"></i></div>
+      <h4>웹디자인</h4>
+      <p>감각적이고 브랜드에 맞는 UI/UX 디자인</p>
+    </article>
+    <article class="service-card">
+      <div class="service-card__icon"><i class="fa-solid fa-code"></i></div>
+      <h4>웹개발</h4>
+      <p>반응형 퍼블리싱 및 풀스택 웹 개발</p>
+    </article>
+  </section>
+</div>
 
 <!-- CTA -->
-<section class="section section--cta">
-  <div class="section__inner">
-    <h2>지금 바로 견적을 요청해보세요</h2>
+<div class="bg-primary">
+  <div class="container cta">
+    <h3>지금 바로 견적을 요청해보세요</h3>
     <a href="/quote.php" class="btn btn--primary btn--lg">견적 요청하기</a>
   </div>
-</section>
+</div>
 
 <?php include 'includes/footer.php'; ?>

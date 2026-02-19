@@ -1,17 +1,17 @@
 <?php
 /**
- * 삼마디자인 - DB 접속 설정 (닷홈 MySQL)
+ * 삼마디자인 - DB 접속 설정
  *
- * ⚠️ 닷홈 호스팅 설정값으로 반드시 교체하세요:
- *   - DB 호스트: 닷홈 cPanel → MySQL → 호스트명 확인
- *   - DB명/사용자/비밀번호: 닷홈 cPanel → MySQL 데이터베이스
+ * .env 파일에서 DB 접속 정보를 읽어옵니다.
  */
 
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'your_db_name');     // 닷홈 DB명으로 변경
-define('DB_USER', 'your_db_user');     // 닷홈 DB 사용자로 변경
-define('DB_PASS', 'your_db_password'); // 닷홈 DB 비밀번호로 변경
-define('DB_CHARSET', 'utf8mb4');
+require_once __DIR__ . '/env.php';
+
+define('DB_HOST',    getenv('DB_HOST') ?: 'localhost');
+define('DB_NAME',    getenv('DB_NAME') ?: '');
+define('DB_USER',    getenv('DB_USER') ?: '');
+define('DB_PASS',    getenv('DB_PASS') ?: '');
+define('DB_CHARSET', getenv('DB_CHARSET') ?: 'utf8mb4');
 
 try {
     $pdo = new PDO(

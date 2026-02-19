@@ -1,2 +1,4 @@
 .DS_Store
 .claude/
+html/.env
+html/node_modules/

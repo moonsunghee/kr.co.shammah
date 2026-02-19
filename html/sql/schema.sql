@@ -68,22 +68,42 @@ CREATE TABLE IF NOT EXISTS `portfolios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+-- 교육 카테고리 (과정명)
+-- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `lesson_categories` (
+  `id`         INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `name`       VARCHAR(100)  NOT NULL UNIQUE,
+  `sort_order` INT           NOT NULL DEFAULT 0,
+  `created_at` DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `idx_sort` (`sort_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 기본 카테고리
+INSERT INTO `lesson_categories` (`name`, `sort_order`) VALUES
+('디자인 방법론', 1),
+('UX UI레슨/코칭', 2),
+('HTML/CSS', 3),
+('JavaScript/jQuery', 4),
+('TypeScript/Next', 5),
+('파이썬', 6),
+('업무코칭/보조', 7);
+
+-- --------------------------------------------------------
 -- 교육 강좌
 -- --------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `lessons` (
   `id`          INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `title`       VARCHAR(200) NOT NULL,
-  `category`    VARCHAR(100) NOT NULL COMMENT '예: HTML/CSS, JavaScript 등',
-  `subjects`    TEXT         NOT NULL COMMENT 'JSON 배열: ["과목1","과목2"]',
+  `category`    VARCHAR(100) NOT NULL COMMENT '카테고리',
+  `level`       ENUM('초급','중급') NOT NULL DEFAULT '초급',
   `hours`       VARCHAR(50)  NOT NULL DEFAULT '',
-  `figma_level` VARCHAR(50)  NOT NULL DEFAULT '',
-  `thumbnail`   VARCHAR(500) NOT NULL DEFAULT '',
-  `price`       INT UNSIGNED NOT NULL DEFAULT 0,
   `sort_order`  INT          NOT NULL DEFAULT 0,
   `is_active`   TINYINT(1)   NOT NULL DEFAULT 1,
   `created_at`  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   INDEX `idx_category`   (`category`),
+  INDEX `idx_level`      (`level`),
   INDEX `idx_sort`       (`sort_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

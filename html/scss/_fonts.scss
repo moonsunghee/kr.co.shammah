@@ -1,0 +1,43 @@
+// ============================================
+//   Europa – Self-hosted webfont
+//   파일 위치: html/fonts/europa-*-webfont.*
+// ============================================
+
+@font-face {
+  font-family: 'Europa';
+  src: url('../fonts/europa-light-webfont.eot');
+  src: url('../fonts/europa-light-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/europa-light-webfont.woff2')       format('woff2'),
+       url('../fonts/europa-light-webfont.woff')        format('woff'),
+       url('../fonts/europa-light-webfont.ttf')         format('truetype'),
+       url('../fonts/europa-light-webfont.svg#europa')  format('svg');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Europa';
+  src: url('../fonts/europa-regular-webfont.eot');
+  src: url('../fonts/europa-regular-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/europa-regular-webfont.woff2')       format('woff2'),
+       url('../fonts/europa-regular-webfont.woff')        format('woff'),
+       url('../fonts/europa-regular-webfont.ttf')         format('truetype'),
+       url('../fonts/europa-regular-webfont.svg#europa')  format('svg');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Europa';
+  src: url('../fonts/europa-bold-webfont.eot');
+  src: url('../fonts/europa-bold-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/europa-bold-webfont.woff2')       format('woff2'),
+       url('../fonts/europa-bold-webfont.woff')        format('woff'),
+       url('../fonts/europa-bold-webfont.ttf')         format('truetype'),
+       url('../fonts/europa-bold-webfont.svg#europa')  format('svg');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

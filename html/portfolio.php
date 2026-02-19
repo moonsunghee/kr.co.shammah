@@ -34,9 +34,9 @@ include 'includes/header.php';
   </div>
 </section>
 
-<!-- 필터 탭 -->
-<section class="section section--portfolio">
-  <div class="section__inner">
+<!-- 포트폴리오 -->
+<div class="container portfolio">
+  <header>
     <div class="portfolio-filter">
       <a href="/portfolio.php" class="filter-btn <?php echo !$category ? 'active' : ''; ?>">전체</a>
       <?php foreach ($categories as $cat): ?>
@@ -46,13 +46,14 @@ include 'includes/header.php';
       </a>
       <?php endforeach; ?>
     </div>
-
+  </header>
+  <section>
     <div class="portfolio-grid">
       <?php if (empty($portfolios)): ?>
       <p class="empty">등록된 포트폴리오가 없습니다.</p>
       <?php else: ?>
       <?php foreach ($portfolios as $item): ?>
-      <div class="card portfolio-card" data-category="<?php echo h($item['category']); ?>">
+      <article class="card portfolio-card" data-category="<?php echo h($item['category']); ?>">
         <div class="card__thumb">
           <?php if ($item['thumbnail']): ?>
           <img src="<?php echo h($item['thumbnail']); ?>" alt="<?php echo h($item['title']); ?>" loading="lazy">
@@ -62,7 +63,7 @@ include 'includes/header.php';
         </div>
         <div class="card__info">
           <span class="card__category"><?php echo h($item['category']); ?></span>
-          <h3 class="card__title"><?php echo h($item['title']); ?></h3>
+          <h4 class="card__title"><?php echo h($item['title']); ?></h4>
           <?php if ($item['description']): ?>
           <p class="card__desc"><?php echo h($item['description']); ?></p>
           <?php endif; ?>
@@ -70,11 +71,11 @@ include 'includes/header.php';
           <a href="<?php echo h($item['link_url']); ?>" target="_blank" rel="noopener" class="card__link">사이트 보기 →</a>
           <?php endif; ?>
         </div>
-      </div>
+      </article>
       <?php endforeach; ?>
       <?php endif; ?>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
 <?php include 'includes/footer.php'; ?>

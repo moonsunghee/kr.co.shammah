@@ -3,9 +3,11 @@
  * 삼마디자인 - 사이트 공통 설정
  */
 
-define('SITE_NAME', '삼마디자인');
-define('SITE_URL', 'https://yourdomain.dothome.co.kr'); // 닷홈 도메인으로 변경
-define('ADMIN_EMAIL', 'admin@yourdomain.com');
+require_once __DIR__ . '/env.php';
+
+define('SITE_NAME',  '삼마디자인');
+define('SITE_URL',   getenv('SITE_URL') ?: 'https://shammah.co.kr');
+define('ADMIN_EMAIL', getenv('ADMIN_EMAIL') ?: 'admin@shammah.co.kr');
 
 define('UPLOAD_DIR', $_SERVER['DOCUMENT_ROOT'] . '/uploads/');
 define('UPLOAD_URL', SITE_URL . '/uploads/');

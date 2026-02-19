@@ -2,7 +2,7 @@
 
 Options -Indexes
 
-# config/, includes/ 폴더 직접 웹 접근 차단
+# config/, includes/, sql/ 폴더 직접 웹 접근 차단
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
@@ -15,17 +15,6 @@ Options -Indexes
   # sql/ 직접 접근 차단
   RewriteRule ^sql/ - [F,L]
 </IfModule>
-
-# 업로드 폴더에서 PHP 실행 차단 (보안)
-<IfModule mod_php7.c>
-  <Directory "uploads">
-    php_flag engine off
-  </Directory>
-</IfModule>
-
-# 파일 업로드 크기 제한 (닷홈 기본값 적용)
-php_value upload_max_filesize 10M
-php_value post_max_size 12M
 
 # 문자셋
 AddDefaultCharset UTF-8

@@ -1,0 +1,57 @@
+@use 'variables' as *;
+
+// --- Hero ---
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 480px;
+  background-size: cover;
+  background-position: center;
+  background-color: $dark;
+  color: $white;
+  text-align: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .45);
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    padding: 40px $padding-x;
+  }
+
+  &__title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+
+  &__sub {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, .8);
+    margin-bottom: 28px;
+  }
+
+  &__cta {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &--sub {
+    min-height: 280px;
+  }
+}
+
+// --- Main ---
+.main {
+  min-height: calc(100vh - $gnb-height);
+}

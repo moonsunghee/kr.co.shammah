@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php echo isset($pageTitle) ? h($pageTitle) : h(SITE_NAME); ?></title>
+  <!-- Europa: html/fonts/ 에 자체 호스팅 (_fonts.scss에서 로드) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
   <link rel="stylesheet" href="/css/style.css">
@@ -33,10 +34,6 @@
         <li><a href="/quote.php" class="<?php echo nav_active('quote', $currentPage ?? ''); ?>">견적요청</a></li>
       </ul>
     </nav>
-
-    <?php if (isset($_SESSION['admin_id'])): ?>
-    <a href="/admin/" class="gnb__admin-btn">관리자</a>
-    <?php endif; ?>
 
     <button class="gnb__hamburger" id="gnbHamburger" aria-label="메뉴 열기">
       <span></span><span></span><span></span>

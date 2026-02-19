@@ -1,0 +1,101 @@
+@use 'variables' as *;
+
+// --- Container ---
+.container {
+
+  padding: 80px 0;
+
+  &--narrow {
+    max-width: $narrow-width;
+  }
+
+  header {
+    width:90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 48px;
+
+    h3 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: $dark;
+      margin-bottom: 8px;
+      span{
+        font-weight: 300;
+      }
+      strong {
+        color: $primary;
+      }
+    }
+
+    p {
+      font-size: 1rem;
+      color: $text-sub;
+    }
+  }
+
+  section {
+    width:90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  footer {
+    width:90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+    
+    p{
+      padding: 20px 0;
+      text-align: center;
+      border-top: 1px solid #CCC;
+    }
+  }
+}
+
+.section__more {
+  text-align: center;
+  margin-top: 40px;
+}
+
+// --- Background Wrappers (full-width) ---
+.bg-dark {
+  background: $dark;
+
+  .container>header {
+    >h3 {
+      color: $white;
+    }
+
+    >p {
+      color: rgba(255, 255, 255, .6);
+    }
+  }
+}
+
+.bg-gray {
+  background: $gray;
+}
+
+.bg-primary {
+  background: $primary;
+  color: $white;
+  text-align: center;
+
+  .container {
+    padding: 60px $padding-x;
+  }
+
+  h3 {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 1rem;
+    opacity: .9;
+    margin-bottom: 24px;
+  }
+}
