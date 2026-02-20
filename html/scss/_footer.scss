@@ -1,65 +1,80 @@
 @use 'variables' as *;
 
 // --- Footer ---
-.footer {
-  background: $dark;
-  color: rgba(255, 255, 255, .7);
-  padding: 48px 0 0;
+.sitemap {
+  background-color: #999;
+  padding: 40px 0;
 
-  &__inner {
+  &-inner {
     max-width: $max-width;
     margin: 0 auto;
-    padding: 0 $padding-x 40px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 40px;
-    align-items: start;
   }
 
-  &__logo {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: $white;
+  &-layout {
+    display: flex;
   }
 
-  &__tagline {
-    font-size: .82rem;
-    margin-top: 6px;
-    color: rgba(255, 255, 255, .5);
-  }
+  &__block {
+    width: 20%;
+    padding-left: 40px;
 
-  &__nav {
-    ul {
-      display: flex;
-      gap: 20px;
+    h5 {
+      font-size: 16px;
+      line-height: 30px;
+      color: #666;
     }
 
-    a {
-      font-size: .88rem;
-      transition: color $transition-fast;
-
-      &:hover {
-        color: $primary;
+    ul {
+      li {
+        font-size: 16px;
+        line-height: 30px;
+        color: #666;
       }
     }
   }
+}
 
-  &__info {
-    font-size: .82rem;
-    line-height: 1.8;
-    font-style: normal;
+.site-footer {
+  background: $dark;
+  color: rgba(255, 255, 255, .7);
+  padding: 20px 0;
 
-    strong {
-      color: $white;
-      font-weight: 600;
+  .logo {
+    color: $white;
+    font-size: 18px;
+    text-align: center;
+    span{
+      font-weight: 300;
+    }
+    img{
+      display: inline;
     }
   }
 
-  &__copy {
-    border-top: 1px solid rgba(255, 255, 255, .1);
-    text-align: center;
-    padding: 16px $padding-x;
-    font-size: .78rem;
-    color: rgba(255, 255, 255, .4);
+  .footer {
+    max-width: $max-width;
+    margin: 0 auto;
+
+    &__info {
+      font-size: 13px;
+      line-height: 1.8;
+      font-style: normal;
+      text-align: center;
+      margin-top: 20px;
+
+      strong {
+        color: $white;
+        font-weight: 600;
+      }
+    }
+
+    &__copy {
+      border-top: 1px solid rgba(255, 255, 255, .1);
+      text-align: center;
+      padding: 8px $padding-x;
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, .4);
+    }
   }
 }

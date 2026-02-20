@@ -1,6 +1,6 @@
 /* main.js – GNB interactions */
 document.addEventListener('DOMContentLoaded', function () {
-  var gnb = document.getElementById('gnb');
+  var siteHeader = document.getElementById('siteHeader');
   var hamburger = document.getElementById('gnbHamburger');
   var nav = document.getElementById('gnbNav');
 
@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Scroll – add .scrolled class to GNB
-  if (gnb) {
+  // Scroll – add .scrolled class to site-header
+  if (siteHeader) {
     window.addEventListener('scroll', function () {
-      gnb.classList.toggle('scrolled', window.scrollY > 10);
+      siteHeader.classList.toggle('scrolled', window.scrollY > 10);
     });
   }
 

@@ -11,10 +11,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf($_POST['csrf_token'] ??
     $fields = [
         'index_hero_title', 'index_hero_sub', 'index_hero_image',
         'index_about_title', 'index_about_text', 'index_about_image',
+        'index_cta_title', 'index_cta_sub', 'index_cta_image',
+        'index_lesson_title', 'index_lesson_sub',
+        'index_portfolio_title', 'index_portfolio_sub', 'index_portfolio_image',
     ];
 
     // 이미지 업로드 처리
-    foreach (['index_hero_image' => 'banner', 'index_about_image' => 'banner'] as $key => $dir) {
+    $imageFields = [
+        'index_hero_image'      => 'banner',
+        'index_about_image'     => 'banner',
+        'index_cta_image'       => 'banner',
+        'index_portfolio_image' => 'banner',
+    ];
+    foreach ($imageFields as $key => $dir) {
         if (!empty($_FILES[$key]['name'])) {
             try {
                 $_POST[$key] = upload_image($_FILES[$key], $dir);
@@ -38,13 +47,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verify_csrf($_POST['csrf_token'] ??
 }
 
 // 현재 콘텐츠 조회
+$keys = [
+    'index_hero_title', 'index_hero_sub', 'index_hero_image',
+    'index_about_title', 'index_about_text', 'index_about_image',
+    'index_cta_title', 'index_cta_sub', 'index_cta_image',
+    'index_lesson_title', 'index_lesson_sub',
+    'index_portfolio_title', 'index_portfolio_sub', 'index_portfolio_image',
+];
 $contents = [];
-$keys = ['index_hero_title','index_hero_sub','index_hero_image','index_about_title','index_about_text','index_about_image'];
 $placeholders = implode(',', array_fill(0, count($keys), '?'));
 $stmt = $pdo->prepare("SELECT page_key, content_val FROM site_contents WHERE page_key IN ($placeholders)");
 $stmt->execute($keys);
 foreach ($stmt->fetchAll() as $row) {
     $contents[$row['page_key']] = $row['content_val'];
+}
+
+// 이미지 미리보기 헬퍼
+function preview_image(array $contents, string $key): void {
+    if (!empty($contents[$key])) {
+        echo '<img src="' . htmlspecialchars($contents[$key], ENT_QUOTES, 'UTF-8') . '" style="max-width:300px; display:block; margin-bottom:8px;">';
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -81,43 +103,106 @@ foreach ($stmt->fetchAll() as $row) {
     <form method="post" enctype="multipart/form-data" class="admin-form">
       <input type="hidden" name="csrf_token" value="<?php echo h(csrf_token()); ?>">
 
+      <!-- ① Hero 섹션 -->
       <div class="admin-section">
-        <h2>Hero 섹션</h2>
+        <h2>① Hero 섹션</h2>
         <div class="form-group">
-          <label>헤드라인 텍스트</label>
-          <input type="text" name="index_hero_title" value="<?php echo h($contents['index_hero_title'] ?? ''); ?>">
+          <label>제목 텍스트</label>
+          <input type="text" name="index_hero_title"
+                 value="<?php echo h($contents['index_hero_title'] ?? '웹기획 · 디자인 · 개발 · IT교육'); ?>">
         </div>
         <div class="form-group">
           <label>서브 텍스트</label>
-          <input type="text" name="index_hero_sub" value="<?php echo h($contents['index_hero_sub'] ?? ''); ?>">
-        </div>
-        <div class="form-group">
-          <label>배경 이미지</label>
-          <?php if (!empty($contents['index_hero_image'])): ?>
-          <img src="<?php echo h($contents['index_hero_image']); ?>" style="max-width:300px; display:block; margin-bottom:8px;">
-          <?php endif; ?>
-          <input type="file" name="index_hero_image" accept="image/*">
-          <input type="hidden" name="index_hero_image" value="<?php echo h($contents['index_hero_image'] ?? ''); ?>">
-        </div>
-      </div>
-
-      <div class="admin-section">
-        <h2>About 섹션</h2>
-        <div class="form-group">
-          <label>제목</label>
-          <input type="text" name="index_about_title" value="<?php echo h($contents['index_about_title'] ?? ''); ?>">
-        </div>
-        <div class="form-group">
-          <label>본문 텍스트</label>
-          <textarea name="index_about_text" rows="5"><?php echo h($contents['index_about_text'] ?? ''); ?></textarea>
+          <input type="text" name="index_hero_sub"
+                 value="<?php echo h($contents['index_hero_sub'] ?? '삼마디자인이 함께합니다'); ?>">
         </div>
         <div class="form-group">
           <label>이미지</label>
-          <?php if (!empty($contents['index_about_image'])): ?>
-          <img src="<?php echo h($contents['index_about_image']); ?>" style="max-width:300px; display:block; margin-bottom:8px;">
-          <?php endif; ?>
+          <?php preview_image($contents, 'index_hero_image'); ?>
+          <input type="file" name="index_hero_image" accept="image/*">
+          <input type="hidden" name="index_hero_image"
+                 value="<?php echo h($contents['index_hero_image'] ?? ''); ?>">
+        </div>
+      </div>
+
+      <!-- ② About 섹션 -->
+      <div class="admin-section">
+        <h2>② About 섹션</h2>
+        <div class="form-group">
+          <label>제목 텍스트</label>
+          <input type="text" name="index_about_title"
+                 value="<?php echo h($contents['index_about_title'] ?? 'ABOUT SHAMMAH'); ?>">
+        </div>
+        <div class="form-group">
+          <label>서브 텍스트</label>
+          <input type="text" name="index_about_text"
+                 value="<?php echo h($contents['index_about_text'] ?? ''); ?>">
+        </div>
+        <div class="form-group">
+          <label>이미지</label>
+          <?php preview_image($contents, 'index_about_image'); ?>
           <input type="file" name="index_about_image" accept="image/*">
-          <input type="hidden" name="index_about_image" value="<?php echo h($contents['index_about_image'] ?? ''); ?>">
+          <input type="hidden" name="index_about_image"
+                 value="<?php echo h($contents['index_about_image'] ?? ''); ?>">
+        </div>
+      </div>
+
+      <!-- ③ 견적(CTA) 섹션 -->
+      <div class="admin-section">
+        <h2>③ 견적 섹션</h2>
+        <div class="form-group">
+          <label>제목 텍스트</label>
+          <input type="text" name="index_cta_title"
+                 value="<?php echo h($contents['index_cta_title'] ?? '프로젝트를 시작할 준비가 되셨나요?'); ?>">
+        </div>
+        <div class="form-group">
+          <label>서브 텍스트</label>
+          <input type="text" name="index_cta_sub"
+                 value="<?php echo h($contents['index_cta_sub'] ?? '삼마디자인에 문의하시면 빠르게 견적을 안내해 드립니다.'); ?>">
+        </div>
+        <div class="form-group">
+          <label>배경 이미지 <small>(컨테이너 background-image로 적용됩니다)</small></label>
+          <?php preview_image($contents, 'index_cta_image'); ?>
+          <input type="file" name="index_cta_image" accept="image/*">
+          <input type="hidden" name="index_cta_image"
+                 value="<?php echo h($contents['index_cta_image'] ?? ''); ?>">
+        </div>
+      </div>
+
+      <!-- ④ Lesson 섹션 -->
+      <div class="admin-section">
+        <h2>④ Lesson 섹션</h2>
+        <div class="form-group">
+          <label>제목 텍스트</label>
+          <input type="text" name="index_lesson_title"
+                 value="<?php echo h($contents['index_lesson_title'] ?? 'SHAMMAH Lesson'); ?>">
+        </div>
+        <div class="form-group">
+          <label>서브 텍스트</label>
+          <input type="text" name="index_lesson_sub"
+                 value="<?php echo h($contents['index_lesson_sub'] ?? '필요한 분야의 전문적 지식을 가장 빠른 활용방법 확인 하기 과정도 진행 중입니다'); ?>">
+        </div>
+      </div>
+
+      <!-- ⑤ Portfolio 섹션 -->
+      <div class="admin-section">
+        <h2>⑤ Portfolio 섹션</h2>
+        <div class="form-group">
+          <label>제목 텍스트</label>
+          <input type="text" name="index_portfolio_title"
+                 value="<?php echo h($contents['index_portfolio_title'] ?? 'SHAMMAH Portfolio'); ?>">
+        </div>
+        <div class="form-group">
+          <label>서브 텍스트</label>
+          <input type="text" name="index_portfolio_sub"
+                 value="<?php echo h($contents['index_portfolio_sub'] ?? '삼마디자인의 작업물을 소개합니다'); ?>">
+        </div>
+        <div class="form-group">
+          <label>이미지</label>
+          <?php preview_image($contents, 'index_portfolio_image'); ?>
+          <input type="file" name="index_portfolio_image" accept="image/*">
+          <input type="hidden" name="index_portfolio_image"
+                 value="<?php echo h($contents['index_portfolio_image'] ?? ''); ?>">
         </div>
       </div>
 

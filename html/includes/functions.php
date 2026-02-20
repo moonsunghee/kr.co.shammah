@@ -84,9 +84,8 @@ function upload_image(array $file, string $subDir = 'uploads'): string {
 
     // MIME 타입 재확인 (보안)
     $allowedMimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mime  = finfo_file($finfo, $file['tmp_name']);
-    finfo_close($finfo);
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mime  = $finfo->file($file['tmp_name']);
     if (!in_array($mime, $allowedMimes, true)) {
         throw new RuntimeException('유효하지 않은 이미지 파일입니다.');
     }

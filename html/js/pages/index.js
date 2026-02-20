@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   // Lesson 카테고리 탭 전환
-  var buttons = document.querySelectorAll('.lesson-sidebar__item');
+  var buttons = document.querySelectorAll('.lesson__sidebar__item');
   var panels  = document.querySelectorAll('.lesson-panel');
 
   buttons.forEach(function (btn) {

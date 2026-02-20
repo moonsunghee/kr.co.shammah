@@ -1,0 +1,171 @@
+@use 'variables' as *;
+
+// --- GNB ---
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #000;
+  backdrop-filter: blur(8px);
+
+  transition: background $transition-slow, box-shadow $transition-slow;
+  padding: 10px 0;
+  color: $white;
+
+  &.scrolled {
+    background: $white;
+    box-shadow: $shadow-sm;
+    color: #000;
+  }
+
+  &-inner {
+    max-width: $max-width;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  h1.logo {
+    font-size: 18px;
+    line-height: 40px;
+    font-weight: 900;
+    color: inherit;
+
+    span {
+      font-weight: 300;
+    }
+  }
+
+  .gnb {
+    &__menu {
+      display: flex;
+      gap: 32px;
+
+      li {
+        font-size: 16px;
+        font-weight: 500;
+
+        padding: 4px 0;
+        transition: color $transition-fast;
+        position: relative;
+
+        &:hover,
+        &.active {
+          color: $primary;
+        }
+
+        &.active::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: $primary;
+          border-radius: 1px;
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+  // Hamburger
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+
+    span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+      transition: transform $transition-slow, opacity $transition-slow;
+    }
+
+    &.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    &.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    &.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+
+  // Mobile
+  @media (max-width: $bp-mobile) {
+    &__hamburger {
+      display: flex;
+    }
+
+    .gnb {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: #111;
+      padding: 8px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+      &.open {
+        display: block;
+      }
+
+      &__menu {
+        flex-direction: column;
+        gap: 0;
+
+        li {
+          padding: 0;
+
+          a {
+            display: block;
+            padding: 14px 24px;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.85);
+
+            &:hover,
+            &.active {
+              color: $primary;
+              background: rgba(255, 255, 255, 0.05);
+            }
+          }
+
+          &.active::after {
+            display: none;
+          }
+        }
+      }
+    }
+
+    &.scrolled .gnb {
+      background: $white;
+
+      &__menu li a {
+        color: $text;
+
+        &:hover,
+        &.active {
+          color: $primary;
+          background: $gray;
+        }
+      }
+    }
+  }
+}

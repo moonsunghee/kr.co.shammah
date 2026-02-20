@@ -15,6 +15,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'reord
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'reorder_levels' && verify_csrf($_POST['csrf_token'] ?? '')) {
+    $category = trim($_POST['category'] ?? '');
+    $levels   = array_values(array_filter($_POST['levels'] ?? []));
+    foreach ($levels as $i => $level) {
+        $stmt = $pdo->prepare('SELECT id FROM lessons WHERE category = ? AND level = ? ORDER BY sort_order ASC');
+        $stmt->execute([$category, $level]);
+        $ids = array_column($stmt->fetchAll(), 'id');
+        foreach ($ids as $j => $id) {
+            $pdo->prepare('UPDATE lessons SET sort_order = ? WHERE id = ?')
+                ->execute([($i * 1000) + $j + 1, $id]);
+        }
+    }
+    header('Content-Type: application/json');
+    echo json_encode(['ok' => true]);
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'reorder_lessons' && verify_csrf($_POST['csrf_token'] ?? '')) {
     $ids = array_filter(array_map('intval', explode(',', $_POST['ids'] ?? '')));
     foreach (array_values($ids) as $i => $id) {
@@ -151,7 +168,7 @@ $editLessonId = isset($_GET['edit_lesson']) ? (int)$_GET['edit_lesson'] : 0;
 
 $lessonsGrouped = [];
 if ($selectedCat) {
-    $stmt = $pdo->prepare('SELECT * FROM lessons WHERE category = ? ORDER BY level ASC, sort_order ASC');
+    $stmt = $pdo->prepare('SELECT * FROM lessons WHERE category = ? ORDER BY sort_order ASC');
     $stmt->execute([$selectedCat['name']]);
     foreach ($stmt->fetchAll() as $l) {
         $lessonsGrouped[$l['level']][] = $l;
@@ -262,20 +279,32 @@ if ($selectedCat) {
     .level-name-edit:focus { background: #fff3f3; box-shadow: 0 0 0 2px #FF6B6B; }
     .level-name-hint { font-size: .72rem; color: #bbb; margin-left: 4px; font-weight: 400; }
 
-    /* 강좌 개별 추가 폼 */
+    /* 강좌 추가 2컬럼 */
     .lesson-add { margin-top: 28px; border-top: 2px solid #eee; padding-top: 20px; }
     .lesson-add__title { font-size: 1rem; font-weight: 700; color: #1A1A1A; margin-bottom: 14px; }
+    .lesson-add-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .lesson-add-col__label {
+      font-size: .88rem; font-weight: 600; color: #FF6B6B;
+      border-bottom: 2px solid #FF6B6B; padding-bottom: 6px; margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .lesson-add-col__count { font-size: .78rem; font-weight: 400; color: #aaa; }
+    .lesson-add-col__full { font-size: .83rem; color: #bbb; padding: 8px 0; }
     .lesson-add-form {
-      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+      display: flex; flex-direction: column; gap: 8px;
     }
     .lesson-add-form input {
       padding: 7px 10px; font-size: .85rem;
-      border: 1px solid #ddd; border-radius: 6px;
+      border: 1px solid #ddd; border-radius: 6px; width: 100%;
     }
     .lesson-add-form input:focus { border-color: #FF6B6B; outline: none; box-shadow: 0 0 0 3px rgba(255,107,107,.1); }
-    .lesson-add-form input[name="title"] { flex: 1; min-width: 160px; }
-    .lesson-add-form input[name="hours"] { width: 110px; }
-    .lesson-add-form input[name="level"] { width: 110px; }
+    .lesson-add-form .lesson-add-row { display: flex; gap: 8px; }
+    .lesson-add-form .lesson-add-row input[name="title"] { flex: 1; }
+    .lesson-add-form .lesson-add-row input[name="hours"] { width: 110px; flex-shrink: 0; }
     .course-section h3 {
       font-size: .95rem; font-weight: 600; color: #FF6B6B;
       border-bottom: 2px solid #FF6B6B; padding-bottom: 6px; margin-bottom: 12px;
@@ -350,8 +379,8 @@ if ($selectedCat) {
     .sortable-ghost { opacity: 0.3; background: #ffe8e8; border-radius: 4px; }
     @media (max-width: 700px) {
       .course-sections-grid { grid-template-columns: 1fr; }
+      .lesson-add-grid { grid-template-columns: 1fr; }
       .cat-list { gap: 6px; }
-      .batch-add__head { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -442,6 +471,7 @@ if ($selectedCat) {
           <?php foreach ($lessonsGrouped as $levelName => $levelLessons): ?>
           <div class="course-section">
             <div class="course-section__head">
+              <span class="section-drag-handle drag-handle" title="드래그하여 순서 변경">⠿</span>
               <input type="checkbox" class="section-check-all" title="이 레벨 전체 선택">
               <span class="level-name-edit"
                     contenteditable="true"
@@ -489,25 +519,46 @@ if ($selectedCat) {
           <p class="course-empty">등록된 강좌가 없습니다.</p>
         <?php endif; ?>
 
-        <!-- ====== 강좌 개별 추가 ====== -->
+        <!-- ====== 강좌 추가 (2컬럼) ====== -->
         <div class="lesson-add">
           <h3 class="lesson-add__title">강좌 추가</h3>
-          <form method="post" class="lesson-add-form">
-            <input type="hidden" name="csrf_token" value="<?php echo h(csrf_token()); ?>">
-            <input type="hidden" name="action" value="add_lesson">
-            <input type="hidden" name="category" value="<?php echo h($selectedCat['name']); ?>">
-            <input type="hidden" name="cat_id_ref" value="<?php echo $selectedCatId; ?>">
-            <input type="text" name="level" placeholder="레벨명 (예: 초급)" required
-                   list="level-hints" autocomplete="off">
-            <datalist id="level-hints">
-              <?php foreach (array_keys($lessonsGrouped) as $lv): ?>
-              <option value="<?php echo h($lv); ?>">
-              <?php endforeach; ?>
-            </datalist>
-            <input type="text" name="title" placeholder="강좌명" required>
-            <input type="text" name="hours" placeholder="시간 (예: 20시간)">
-            <button type="submit" class="btn btn--primary btn--sm">추가</button>
-          </form>
+          <div class="lesson-add-grid">
+            <?php
+            $levelKeys = array_keys($lessonsGrouped);
+            for ($col = 0; $col < 2; $col++):
+              $levelName  = $levelKeys[$col] ?? '';
+              $levelCount = isset($lessonsGrouped[$levelName]) ? count($lessonsGrouped[$levelName]) : 0;
+              $isFull     = $levelCount >= 12;
+              $colLabel   = $col === 0 ? '왼쪽' : '오른쪽';
+            ?>
+            <div class="lesson-add-col">
+              <div class="lesson-add-col__label">
+                <?php echo $levelName ? h($levelName) : $colLabel . ' (레벨명 없음)'; ?>
+                <span class="lesson-add-col__count"><?php echo $levelCount; ?>/12</span>
+              </div>
+              <?php if ($isFull): ?>
+                <p class="lesson-add-col__full">최대 12개 강좌가 입력되었습니다.</p>
+              <?php else: ?>
+              <form method="post" class="lesson-add-form">
+                <input type="hidden" name="csrf_token" value="<?php echo h(csrf_token()); ?>">
+                <input type="hidden" name="action" value="add_lesson">
+                <input type="hidden" name="category" value="<?php echo h($selectedCat['name']); ?>">
+                <input type="hidden" name="cat_id_ref" value="<?php echo $selectedCatId; ?>">
+                <?php if ($levelName): ?>
+                  <input type="hidden" name="level" value="<?php echo h($levelName); ?>">
+                <?php else: ?>
+                  <input type="text" name="level" placeholder="레벨명 (예: <?php echo $colLabel; ?>급)" required>
+                <?php endif; ?>
+                <div class="lesson-add-row">
+                  <input type="text" name="title" placeholder="강좌명" required>
+                  <input type="text" name="hours" placeholder="시간">
+                </div>
+                <button type="submit" class="btn btn--primary btn--sm">추가</button>
+              </form>
+              <?php endif; ?>
+            </div>
+            <?php endfor; ?>
+          </div>
         </div>
 
         <?php else: ?>
@@ -592,6 +643,25 @@ if (catList) {
     onEnd: function () {
       var ids = [...catList.querySelectorAll('.cat-list__item[data-cat-id]')].map(el => el.dataset.catId);
       reorder('reorder_categories', ids);
+    }
+  });
+}
+
+// 레벨(컬럼) 순서
+var sectionsGrid = document.querySelector('.course-sections-grid');
+var currentCat = '<?php echo $selectedCat ? h($selectedCat['name']) : ''; ?>';
+if (sectionsGrid && currentCat) {
+  Sortable.create(sectionsGrid, {
+    handle: '.section-drag-handle',
+    animation: 150,
+    ghostClass: 'sortable-ghost',
+    onEnd: function () {
+      var levels = [...sectionsGrid.querySelectorAll('.level-name-edit')].map(function (el) {
+        return el.textContent.trim();
+      });
+      var params = new URLSearchParams({ action: 'reorder_levels', csrf_token: CSRF, category: currentCat });
+      levels.forEach(function (lv) { params.append('levels[]', lv); });
+      fetch('', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: params });
     }
   });
 }

@@ -1,4 +1,190 @@
+@use 'variables' as *;
+
 /* ============================================
-   Common Layout
-   모든 페이지 공통 레이아웃 스타일
+   Typography – 전체 문서 기본 타이포그래피
    ============================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+   font-family: $font-family;
+   color: $dark;
+   font-weight: 700;
+   line-height: 1.2;
+}
+
+h1 {
+   font-size: 40px;
+}
+
+h2 {
+   font-size: 32px;
+}
+
+h3 {
+   font-size: 26px;
+}
+
+h4 {
+   font-size: 20px;
+}
+
+h5 {
+   font-size: 17px;
+}
+
+h6 {
+   font-size: 14px;
+}
+
+p {
+   font-size: 16px;
+   color: $text;
+   line-height: $line-height;
+}
+
+small {
+   font-size: 13px;
+   color: $text-sub;
+}
+
+strong {
+   font-weight: 700;
+}
+
+em {
+   font-style: italic;
+}
+
+/* ============================================
+   Common Layout – 공통 레이아웃
+   ============================================ */
+
+.container {
+
+   padding: 120px 0;
+
+   &--narrow {
+      max-width: $narrow-width;
+   }
+
+   header {
+      width: 90%;
+      max-width: $max-width;
+      margin: 0 auto;
+      text-align: center;
+
+      h3 {
+         font-size: 60px;
+         font-weight: 700;
+         line-height: 80px;
+         color: $dark;
+         span {
+            font-weight: 300;
+         }
+      }
+
+      p {
+         font-size: 14px;
+         line-height: 20px;
+         color: $text-sub;
+      }
+   }
+
+   section {
+      width: 90%;
+      max-width: $max-width;
+      margin: 0 auto;
+      margin-top: 40px;
+      h4{}
+      h5{}
+      p{
+         font-family: "Noto Serif KR" ;
+         font-size: 16px;
+         line-height: 24px;
+      }
+      li{
+         font-family: "Noto Sans KR" ;
+         font-size: 16px;
+         line-height: 24px;
+      }
+   }
+
+   footer {
+      width: 90%;
+      max-width: $max-width;
+      margin: 0 auto;
+      margin-top: 20px;
+
+      p {
+         padding: 20px 0;
+         text-align: center;
+         font-size: 16px;
+         line-height: 20px;
+         color: #999;
+         border-top: 1px solid #CCC;
+      }
+   }
+}
+
+.main {
+   min-height: calc(100vh - $gnb-height);
+}
+
+.empty {
+   text-align: center;
+   color: $text-sub;
+   padding: 40px 0;
+   font-size: 15px;
+}
+
+// --- Container ---
+
+
+.section__more {
+   text-align: center;
+   margin-top: 40px;
+}
+
+// --- Background Wrappers (full-width) ---
+.bg-dark {
+   background: $dark;
+
+   .container>header {
+      >h3 {
+         color: $white;
+      }
+
+      >p {
+         color: rgba(255, 255, 255, .6);
+      }
+   }
+}
+
+.bg-gray {
+   background: $gray;
+}
+
+.bg-primary {
+   background: $primary;
+   color: $white;
+   text-align: center;
+
+   .container {
+      padding: 120px 0;
+   }
+
+   h3 {
+      font-size: 26px;
+      
+   }
+
+   p {
+      font-size: 16px;
+      opacity: .9;
+      
+   }
+}

@@ -2,56 +2,111 @@
 
 // --- Hero ---
 .hero {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 480px;
-  background-size: cover;
-  background-position: center;
-  background-color: $dark;
-  color: $white;
-  text-align: center;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, .45);
-  }
+  background-color: #000;
+  height: 480px;
+  padding-bottom: 40px;
 
   &__inner {
+    max-width: $max-width;
+    width: 100%;
+    margin: 0 auto;
     position: relative;
     z-index: 1;
-    padding: 40px $padding-x;
   }
 
-  &__title {
-    font-size: 2.8rem;
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 12px;
+  &__image {
+    width: 100%;
+
+    &_box {
+      width: calc((100vw - $max-width) / 2 + 100%);
+      min-width: 100%;
+      height: 520px;
+      background-color: #ccc;
+      overflow: hidden;
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.4);
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
   }
 
-  &__sub {
-    font-size: 1.15rem;
-    color: rgba(255, 255, 255, .8);
-    margin-bottom: 28px;
-  }
-
-  &__cta {
+  &__text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
     display: flex;
-    gap: 12px;
     justify-content: center;
-    flex-wrap: wrap;
+    align-items: center;
+
+    &_title {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 80px;
+      color: $white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    &_sub {
+      font-size: 20px;
+      color: rgba(255, 255, 255, .8);
+      font-weight: 700;
+      line-height: 40px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    &_cta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
   }
 
-  &--sub {
-    min-height: 280px;
-  }
 }
 
 // --- Main ---
-.main {
-  min-height: calc(100vh - $gnb-height);
+
+// Responsive – 태블릿
+@media (max-width: $bp-tablet) {
+  .hero {
+    height: 400px;
+
+    &__image_box { height: 440px; }
+    &__text_title { font-size: 28px; line-height: 60px; }
+    &__text_sub   { font-size: 17px; line-height: 32px; }
+  }
+}
+
+// Responsive – 모바일
+@media (max-width: $bp-mobile) {
+  .hero {
+    height: 300px;
+    padding-bottom: 0;
+
+    &__image_box { width: 100%; height: 300px; }
+    &__text_title { font-size: 22px; line-height: 40px; }
+    &__text_sub   { font-size: 14px; line-height: 26px; }
+    &__text_cta {
+      flex-direction: row;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+  }
 }

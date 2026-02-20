@@ -3,14 +3,17 @@
 .portfolio-filter {
   display: flex;
   gap: 8px;
-  margin-bottom: 32px;
   flex-wrap: wrap;
+}
+
+.portfolio-grid {
+  margin-top: 32px;
 }
 
 .filter-btn {
   display: inline-block;
   padding: 8px 20px;
-  font-size: .88rem;
+  font-size: 14px;
   font-weight: 500;
   color: #666;
   background: #F5F5F5;
