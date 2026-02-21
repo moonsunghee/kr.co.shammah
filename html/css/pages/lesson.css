@@ -111,8 +111,26 @@
 
 @media (max-width: 1199px) {
   .lesson-layout {
-    grid-template-columns: 180px 1fr;
+    grid-template-columns: 1fr;
     gap: 24px;
+  }
+  .lesson-sidebar__list {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .lesson-sidebar__item {
+    white-space: nowrap;
+    padding: 8px 20px;
+    font-size: 14px;
+    border-radius: 24px;
+    background: #F5F5F5;
+  }
+  .lesson-sidebar__item.is-active {
+    background: #FF6B6B;
+    color: #fff;
   }
 }
 @media (max-width: 767px) {

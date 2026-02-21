@@ -197,14 +197,60 @@
     }
   }
 
-  // Responsive – 태블릿
+  // Responsive – 태블릿 (아이패드: 카테고리 상단, 강좌 2컬럼)
   @media (max-width: $bp-tablet) {
+    .lesson-layout {
+      flex-direction: column;
+    }
+
     .lesson__sidebar {
-      width: 200px;
+      width: 100%;
+      direction: ltr;
+
+      &__wrap {
+        background-color: transparent;
+        pointer-events: none;
+      }
+
+      &__list {
+        position: static;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 0;
+        padding: 0;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        &::-webkit-scrollbar { display: none; }
+      }
+
+      li button {
+        width: auto;
+        white-space: nowrap;
+        padding: 10px 20px;
+        border-bottom: 2px solid transparent;
+        line-height: 1.4;
+        text-align-last: center;
+
+        &.is-active {
+          border-bottom-color: $primary;
+          background: none;
+          color: $primary;
+        }
+      }
     }
 
     .lesson__content {
-      width: calc(100% - 220px);
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .lesson-courses {
+      grid-template-columns: 1fr 1fr;
+
+      &--single {
+        grid-template-columns: 1fr;
+      }
     }
   }
 

@@ -75,7 +75,7 @@ html/                    ← 웹루트 (document root)
   $host = 'localhost';   // ← 실제 DB 호스트
   $dbname = shammah;      // ← 실제 DB명
   $user = shammah;    // ← 실제 DB 사용자
-  $pass = Matt2820!!;  // ← 실제 DB 비밀번호
+  $pass = Matt2820!;  // ← 실제 DB 비밀번호
   ```
 - [ ] 관리자 계정 생성 (SQL 직접 INSERT 또는 별도 스크립트)
 

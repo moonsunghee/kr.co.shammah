@@ -765,7 +765,7 @@ em {
     min-height: 200px;
   }
   .container {
-    padding: 48px 24px;
+    padding: 48px 0;
   }
   .container > header > h3 {
     font-size: 22px;
@@ -787,3 +787,5 @@ em {
     gap: 8px;
   }
 }
+
+/*# sourceMappingURL=style.css.map */
