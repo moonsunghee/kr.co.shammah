@@ -97,22 +97,18 @@ async function fetchNews(topic) {
   return [];
 }
 
-// ─── CLAUDE API ───────────────────────────────────────────────
+// ─── CLAUDE API (서버 프록시 경유) ────────────────────────────
 async function callClaude(apiKey, prompt, retries = 2) {
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('/api/claude-proxy.php', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-calls': 'true'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
+          api_key:    apiKey,
+          model:      'claude-sonnet-4-6',
           max_tokens: 3000,
-          messages: [{ role: 'user', content: prompt }]
+          messages:   [{ role: 'user', content: prompt }]
         })
       });
 
