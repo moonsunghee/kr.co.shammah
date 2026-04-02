@@ -165,35 +165,40 @@ ${newsSection}
       "tag": "AI 카드뉴스",
       "title": "3~5 단어의 임팩트 있는 메인 타이틀",
       "subtitle": "한 줄 부제목 (40자 이내)",
-      "date": "오늘 날짜 (YYYY.MM.DD)"
+      "date": "오늘 날짜 (YYYY.MM.DD)",
+      "image_query": "주제와 어울리는 영문 검색 키워드 1~3개 (예: artificial intelligence, robot, future technology)"
     },
     {
       "type": "news",
       "number": 1,
       "emoji": "관련 이모지",
       "headline": "핵심 뉴스 제목 (25자 이내)",
-      "body": "2~3줄 요약 설명 (80자 이내)"
+      "body": "2~3줄 요약 설명 (80자 이내)",
+      "image_query": "이 뉴스 내용과 어울리는 영문 키워드 1~3개"
     },
     {
       "type": "news",
       "number": 2,
       "emoji": "관련 이모지",
       "headline": "핵심 뉴스 제목 (25자 이내)",
-      "body": "2~3줄 요약 설명 (80자 이내)"
+      "body": "2~3줄 요약 설명 (80자 이내)",
+      "image_query": "이 뉴스 내용과 어울리는 영문 키워드 1~3개"
     },
     {
       "type": "news",
       "number": 3,
       "emoji": "관련 이모지",
       "headline": "핵심 뉴스 제목 (25자 이내)",
-      "body": "2~3줄 요약 설명 (80자 이내)"
+      "body": "2~3줄 요약 설명 (80자 이내)",
+      "image_query": "이 뉴스 내용과 어울리는 영문 키워드 1~3개"
     },
     {
       "type": "news",
       "number": 4,
       "emoji": "관련 이모지",
       "headline": "핵심 뉴스 제목 (25자 이내)",
-      "body": "2~3줄 요약 설명 (80자 이내)"
+      "body": "2~3줄 요약 설명 (80자 이내)",
+      "image_query": "이 뉴스 내용과 어울리는 영문 키워드 1~3개"
     },
     {
       "type": "summary",
@@ -233,13 +238,23 @@ function escHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
+function imgStyle(query, overlay) {
+  if (!query) return '';
+  const url = '/api/image-proxy.php?q=' + encodeURIComponent(query);
+  return `background-image: ${overlay}, url(${url}); background-size: cover; background-position: center;`;
+}
+
 function renderCoverCard(card, t, brand) {
+  const bg = card.image_query
+    ? imgStyle(card.image_query, 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0.25) 100%)')
+    : `background:${t.bg};`;
+  const color = card.image_query ? '#ffffff' : t.text;
+  const accentColor = card.image_query ? t.accent2 || t.accent : t.accent;
   return `
-  <div class="cn-card cn-cover" style="background:${t.bg};color:${t.text};">
-    <div class="cn-cover-deco" style="background:${t.accent}"></div>
-    <div class="cn-cover-deco2" style="background:${t.accent}"></div>
+  <div class="cn-card cn-cover" style="${bg}color:${color};" data-img-url="${card.image_query ? '/api/image-proxy.php?q=' + encodeURIComponent(card.image_query) : ''}">
+    ${!card.image_query ? `<div class="cn-cover-deco" style="background:${t.accent}"></div><div class="cn-cover-deco2" style="background:${t.accent}"></div>` : ''}
     <div class="cn-cover-bignum">AI</div>
-    <div class="cn-cover-tag" style="color:${t.accent}">${escHtml(card.tag || 'AI 카드뉴스')}</div>
+    <div class="cn-cover-tag" style="color:${accentColor}">${escHtml(card.tag || 'AI 카드뉴스')}</div>
     <div class="cn-cover-title">${escHtml(card.title)}</div>
     <div class="cn-cover-subtitle">${escHtml(card.subtitle || '')}</div>
     <div class="cn-cover-date">${escHtml(card.date || '')}${brand ? ' · ' + escHtml(brand) : ''}</div>
@@ -247,16 +262,24 @@ function renderCoverCard(card, t, brand) {
 }
 
 function renderNewsCard(card, t, index, total, brand) {
+  const bg = card.image_query
+    ? imgStyle(card.image_query, 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.78) 100%)')
+    : `background:${t.bg};`;
+  const color      = card.image_query ? '#ffffff' : t.text;
+  const numBg      = card.image_query ? 'rgba(255,255,255,0.15)' : t.accent;
+  const numColor   = card.image_query ? '#ffffff' : t.bg;
+  const labelColor = card.image_query ? 'rgba(255,255,255,0.6)' : t.accent;
+  const borderColor = card.image_query ? 'rgba(255,255,255,0.2)' : t.accent + '36';
   return `
-  <div class="cn-card cn-news" style="background:${t.bg};color:${t.text};">
+  <div class="cn-card cn-news" style="${bg}color:${color};" data-img-url="${card.image_query ? '/api/image-proxy.php?q=' + encodeURIComponent(card.image_query) : ''}">
     <div style="position:absolute;top:0;left:0;width:8px;height:100%;background:${t.accent}"></div>
     <div class="cn-news-header">
-      <div class="cn-news-num" style="background:${t.accent};color:${t.bg}">${card.number || index}</div>
-      <div class="cn-news-label" style="color:${t.accent}">NEWS</div>
+      <div class="cn-news-num" style="background:${numBg};color:${numColor}">${card.number || index}</div>
+      <div class="cn-news-label" style="color:${labelColor}">NEWS</div>
     </div>
     <div class="cn-news-emoji">${card.emoji || '📰'}</div>
     <div class="cn-news-headline">${escHtml(card.headline)}</div>
-    <div class="cn-news-body" style="border-color:${t.accent}36">${escHtml(card.body || '')}</div>
+    <div class="cn-news-body" style="border-color:${borderColor}">${escHtml(card.body || '')}</div>
     <div class="cn-page-indicator">${index} / ${total}</div>
     ${brand ? `<div class="cn-brand">${escHtml(brand)}</div>` : ''}
   </div>`;
@@ -436,11 +459,22 @@ async function captureCard(html) {
   const card = div.firstElementChild;
   card.style.fontFamily = "'Noto Sans KR', sans-serif";
   wrap.appendChild(card);
+
+  // 배경 이미지 프리로드 (html2canvas 캡처 전 이미지가 로드되어야 함)
+  const imgUrl = card.dataset.imgUrl;
+  if (imgUrl) {
+    await new Promise(resolve => {
+      const img = new Image();
+      img.onload = img.onerror = resolve;
+      img.src = imgUrl;
+    });
+  }
+
   await document.fonts.ready;
-  await new Promise(r => setTimeout(r, 100));
+  await new Promise(r => setTimeout(r, 200));
   const canvas = await html2canvas(card, {
     width: 1080, height: 1080, scale: 1,
-    useCORS: true, allowTaint: true,
+    useCORS: true, allowTaint: false,
     backgroundColor: null
   });
   wrap.removeChild(card);
