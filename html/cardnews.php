@@ -1,5 +1,6 @@
 <?php
 require_once 'config/config.php';
+require_once 'config/db.php';
 require_once 'includes/functions.php';
 
 $pageTitle   = 'AI 카드뉴스 생성기 | 삼마디자인';
