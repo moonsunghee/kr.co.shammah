@@ -16,7 +16,7 @@ include 'includes/header.php';
   <!-- ── SIDEBAR ── -->
   <aside class="cn-sidebar">
     <div class="cn-sidebar-header">
-      <h2>✦ AI 카드뉴스 생성기</h2>
+      <h2>AI 카드뉴스 생성기</h2>
       <p>주제를 입력하면 AI가 카드뉴스를 자동으로 만들어드립니다.</p>
     </div>
 
@@ -57,7 +57,7 @@ include 'includes/header.php';
       </div>
 
       <!-- 생성 버튼 -->
-      <button type="button" id="cn-btn-generate">✦ 카드뉴스 생성하기</button>
+      <button type="button" id="cn-btn-generate">카드뉴스 생성하기</button>
 
       <!-- 카드 썸네일 목록 -->
       <div id="cn-thumb-section" style="display:none;">
