@@ -11,10 +11,8 @@ $query = substr($query, 0, 100);
 
 // 키워드를 쉼표 구분으로 변환 (loremflickr 형식)
 $keywords = implode(',', array_map('trim', preg_split('/[\s,]+/', $query)));
-// 동일 키워드는 항상 같은 이미지 (lock = 키워드 해시)
-$lock = abs(crc32($keywords)) % 9999;
 
-$url = "https://loremflickr.com/1080/1080/{$keywords}?lock={$lock}";
+$url = "https://loremflickr.com/1080/1080/{$keywords}";
 
 $ch = curl_init($url);
 curl_setopt_array($ch, [
