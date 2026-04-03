@@ -14,6 +14,7 @@ let currentTheme = 'dark';
 let currentIndex = 0;
 let cardDataList = [];
 let cardTitles   = [];
+let currentTopic = '';
 
 // ─── THEME PICKER ────────────────────────────────────────────
 document.querySelectorAll('#cn-theme-picker .cn-swatch').forEach(el => {
@@ -398,6 +399,7 @@ document.getElementById('cn-next').addEventListener('click', () => navigate(1));
 async function generateCards() {
   const apiKey = document.getElementById('cn-api-key').value.trim();
   const topic  = document.getElementById('cn-topic').value.trim() || 'AI 인공지능';
+  currentTopic = topic;
   const brand  = document.getElementById('cn-brand').value.trim();
 
   if (!apiKey) { showError('Claude API 키를 입력해주세요'); return; }
@@ -458,6 +460,13 @@ document.getElementById('cn-topic').addEventListener('keydown', e => {
 });
 
 // ─── DOWNLOAD ────────────────────────────────────────────────
+function makeFilename(index) {
+  const today = new Date().toLocaleDateString('ko-KR', {year:'numeric', month:'2-digit', day:'2-digit'})
+    .replace(/\. /g, '').replace('.', '');
+  const slug = currentTopic.replace(/\s+/g, '_').replace(/[^\w가-힣]/g, '').slice(0, 20);
+  const num = String(index).padStart(2, '0');
+  return `${slug}_${today}_${num}.png`;
+}
 async function captureCard(html) {
   const wrap = document.getElementById('cn-render-area');
   const div  = document.createElement('div');
@@ -491,7 +500,7 @@ document.getElementById('cn-dl-single').addEventListener('click', async () => {
   try {
     const canvas = await captureCard(cardDataList[currentIndex]);
     const a = document.createElement('a');
-    a.download = `card_${String(currentIndex + 1).padStart(2, '0')}.png`;
+    a.download = makeFilename(currentIndex + 1);
     a.href = canvas.toDataURL('image/png');
     a.click();
   } catch(e) { showError('다운로드 중 오류: ' + e.message); }
@@ -507,12 +516,15 @@ document.getElementById('cn-dl-all').addEventListener('click', async () => {
       btn.textContent = `⏳ ${i + 1}/${cardDataList.length} 처리 중...`;
       const canvas = await captureCard(cardDataList[i]);
       const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
-      zip.file(`card_${String(i + 1).padStart(2, '0')}.png`, blob);
+      zip.file(makeFilename(i + 1), blob);
     }
     const content = await zip.generateAsync({ type: 'blob' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(content);
-    a.download = 'cardnews.zip';
+    const today = new Date().toLocaleDateString('ko-KR', {year:'numeric', month:'2-digit', day:'2-digit'})
+      .replace(/\. /g, '').replace('.', '');
+    const slug = currentTopic.replace(/\s+/g, '_').replace(/[^\w가-힣]/g, '').slice(0, 20);
+    a.download = `${slug}_${today}.zip`;
     a.click();
   } catch(e) { showError('ZIP 생성 오류: ' + e.message); }
   finally {
