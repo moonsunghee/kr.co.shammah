@@ -279,7 +279,6 @@ function renderNewsCard(card, t, index, total, brand) {
   const borderColor = card.image_query ? 'rgba(255,255,255,0.2)' : t.accent + '36';
   return `
   <div class="cn-card cn-news" style="${bg}color:${color};" data-img-url="${card.image_query ? imgUrl(card.image_query) : ''}">
-    <div style="position:absolute;top:0;left:0;width:8px;height:100%;background:${t.accent}"></div>
     <div class="cn-news-header">
       <div class="cn-news-num" style="background:${numBg};color:${numColor}">${card.number || index}</div>
       <div class="cn-news-label" style="color:${labelColor}">NEWS</div>
