@@ -283,7 +283,6 @@ function renderNewsCard(card, t, index, total, brand) {
       <div class="cn-news-num" style="background:${numBg};color:${numColor}">${card.number || index}</div>
       <div class="cn-news-label" style="color:${labelColor}">NEWS</div>
     </div>
-    <div class="cn-news-emoji">${card.emoji || '📰'}</div>
     <div class="cn-news-headline">${escHtml(card.headline)}</div>
     <div class="cn-news-body" style="border-color:${borderColor}">${escHtml(card.body || '')}</div>
     <div class="cn-page-indicator">${index} / ${total}</div>
