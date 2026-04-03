@@ -238,10 +238,16 @@ function escHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
+// 생성 시마다 타임스탬프로 캐시 무력화
+let _imgSeed = Date.now();
+
+function imgUrl(query) {
+  return '/api/image-proxy.php?q=' + encodeURIComponent(query) + '&t=' + _imgSeed;
+}
+
 function imgStyle(query, overlay) {
   if (!query) return '';
-  const url = '/api/image-proxy.php?q=' + encodeURIComponent(query);
-  return `background-image: ${overlay}, url(${url}); background-size: cover; background-position: center;`;
+  return `background-image: ${overlay}, url(${imgUrl(query)}); background-size: cover; background-position: center;`;
 }
 
 function renderCoverCard(card, t, brand) {
@@ -251,7 +257,7 @@ function renderCoverCard(card, t, brand) {
   const color = card.image_query ? '#ffffff' : t.text;
   const accentColor = card.image_query ? t.accent2 || t.accent : t.accent;
   return `
-  <div class="cn-card cn-cover" style="${bg}color:${color};" data-img-url="${card.image_query ? '/api/image-proxy.php?q=' + encodeURIComponent(card.image_query) : ''}">
+  <div class="cn-card cn-cover" style="${bg}color:${color};" data-img-url="${card.image_query ? imgUrl(card.image_query) : ''}">
     ${!card.image_query ? `<div class="cn-cover-deco" style="background:${t.accent}"></div><div class="cn-cover-deco2" style="background:${t.accent}"></div>` : ''}
     <div class="cn-cover-bignum">AI</div>
     <div class="cn-cover-tag" style="color:${accentColor}">${escHtml(card.tag || 'AI 카드뉴스')}</div>
@@ -271,7 +277,7 @@ function renderNewsCard(card, t, index, total, brand) {
   const labelColor = card.image_query ? 'rgba(255,255,255,0.6)' : t.accent;
   const borderColor = card.image_query ? 'rgba(255,255,255,0.2)' : t.accent + '36';
   return `
-  <div class="cn-card cn-news" style="${bg}color:${color};" data-img-url="${card.image_query ? '/api/image-proxy.php?q=' + encodeURIComponent(card.image_query) : ''}">
+  <div class="cn-card cn-news" style="${bg}color:${color};" data-img-url="${card.image_query ? imgUrl(card.image_query) : ''}">
     <div style="position:absolute;top:0;left:0;width:8px;height:100%;background:${t.accent}"></div>
     <div class="cn-news-header">
       <div class="cn-news-num" style="background:${numBg};color:${numColor}">${card.number || index}</div>
@@ -400,6 +406,7 @@ async function generateCards() {
 
   document.getElementById('cn-btn-generate').disabled = true;
   currentIndex = 0;
+  _imgSeed = Date.now(); // 매 생성마다 새 이미지
 
   try {
     // Step 1: 뉴스 수집 (실패해도 계속 진행)

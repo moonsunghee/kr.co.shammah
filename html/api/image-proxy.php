@@ -28,8 +28,8 @@ $httpCode    = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
 if ($image && $httpCode === 200) {
-    header('Content-Type: '   . ($contentType ?: 'image/jpeg'));
-    header('Cache-Control: public, max-age=86400'); // 24시간 캐시
+    header('Content-Type: ' . ($contentType ?: 'image/jpeg'));
+    header('Cache-Control: no-store');
     echo $image;
 } else {
     http_response_code(404);
