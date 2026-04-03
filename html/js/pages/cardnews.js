@@ -165,7 +165,7 @@ ${newsSection}
       "tag": "AI 카드뉴스",
       "title": "3~5 단어의 임팩트 있는 메인 타이틀",
       "subtitle": "한 줄 부제목 (40자 이내)",
-      "date": "오늘 날짜 (YYYY.MM.DD)",
+      "date": "${new Date().toLocaleDateString('ko-KR', {year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace(/\.$/,'')}",
       "image_query": "주제와 어울리는 영문 검색 키워드 1~3개 (예: artificial intelligence, robot, future technology)"
     },
     {
