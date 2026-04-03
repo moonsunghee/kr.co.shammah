@@ -13,9 +13,10 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'].'/css/style.css'); ?>">
   <?php if (isset($pageCSS)): ?>
-    <link rel="stylesheet" href="/css/pages/<?php echo h($pageCSS); ?>">
+    <?php $cssPath = $_SERVER['DOCUMENT_ROOT'].'/css/pages/'.basename($pageCSS); ?>
+    <link rel="stylesheet" href="/css/pages/<?php echo h($pageCSS); ?>?v=<?php echo file_exists($cssPath) ? filemtime($cssPath) : 1; ?>">
   <?php endif; ?>
 </head>
 

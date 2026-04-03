@@ -76,9 +76,10 @@
 <!-- /Footer -->
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="/js/main.js"></script>
+<script src="/js/main.js?v=<?php echo filemtime($_SERVER['DOCUMENT_ROOT'].'/js/main.js'); ?>"></script>
 <?php if (isset($pageJS)): ?>
-  <script src="/js/pages/<?php echo h($pageJS); ?>"></script>
+  <?php $jsPath = $_SERVER['DOCUMENT_ROOT'].'/js/pages/'.basename($pageJS); ?>
+  <script src="/js/pages/<?php echo h($pageJS); ?>?v=<?php echo file_exists($jsPath) ? filemtime($jsPath) : 1; ?>"></script>
 <?php endif; ?>
 </body>
 
