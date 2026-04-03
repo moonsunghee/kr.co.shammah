@@ -2,3 +2,4 @@
 .claude/
 html/.env
 html/node_modules/
+.notion.env

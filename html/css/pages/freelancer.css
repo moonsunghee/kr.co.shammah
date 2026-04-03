@@ -1,12 +1,12 @@
 @charset "UTF-8";
 /* freelancer.css – Freelancer page styles */
+
+/* ── Service Section ──────────────────────── */
 .service {
   background-color: #efefef;
 }
 .service .service-grid {
-  width: 1200px;
-  max-width: 90%;
-  margin: 0 auto;
+  
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
@@ -48,17 +48,220 @@
   margin-top: 8px;
 }
 
+/* ── Freelancer Section ───────────────────── */
+.freelancers {
+  background-color: #F9F9F9;
+}
+
+.freelancer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Filter */
+.freelancer-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 28px 32px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+}
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.filter-label {
+  font-size: 13px;
+  color: #999;
+  font-weight: 600;
+  min-width: 56px;
+}
+.filter-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 5px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  background: #F5F5F5;
+  border: 1px solid #eee;
+  color: #666;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.filter-btn:hover,
+.filter-btn.is-active {
+  background: #FF6B6B;
+  border-color: #FF6B6B;
+  color: #fff;
+}
+
+/* Grid */
+.freelancer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+/* Card */
+.freelancer-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 36px 28px 28px;
+  text-align: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+  min-width: 0;
+}
+.freelancer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+.freelancer-card.hidden {
+  display: none;
+}
+
+.freelancer-card__avatar {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto;
+  background: #F5F5F5;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #ccc;
+}
+.freelancer-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.freelancer-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+/* 업무유형 뱃지 */
+.badge--role {
+  background: rgba(255, 107, 107, 0.1);
+  color: #FF6B6B;
+}
+
+/* 레벨 뱃지 */
+.badge--level.badge--초급 {
+  background: rgba(76, 175, 80, 0.12);
+  color: #388E3C;
+}
+.badge--level.badge--중급 {
+  background: rgba(33, 150, 243, 0.12);
+  color: #1976D2;
+}
+.badge--level.badge--고급 {
+  background: rgba(255, 152, 0, 0.12);
+  color: #E65100;
+}
+.badge--level.badge--특급 {
+  background: rgba(255, 107, 107, 0.15);
+  color: #FF6B6B;
+}
+
+.freelancer-card__name {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 12px;
+  color: #1A1A1A;
+}
+
+.freelancer-card__desc {
+  font-size: 13px;
+  color: #999;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+
+.freelancer-card__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid #F0F0F0;
+}
+.freelancer-card__skills li {
+  background: #F5F5F5;
+  color: #555;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.freelancer-card .btn {
+  margin-top: 20px;
+}
+
+.freelancer-empty {
+  text-align: center;
+  color: #999;
+  padding: 48px 0;
+  font-size: 15px;
+  margin-top: 8px;
+}
+.freelancer-empty.hidden {
+  display: none;
+}
+
+/* ── Responsive ───────────────────────────── */
 @media (max-width: 1199px) {
-  .service-grid {
+  .service .service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .freelancer-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (max-width: 767px) {
-  .service-grid {
+  .service .service-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
   .service-card {
     padding: 28px 20px;
+  }
+  .freelancer-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .freelancer-filter {
+    padding: 20px 16px;
+    gap: 12px;
+  }
+  .filter-label {
+    min-width: 48px;
   }
 }

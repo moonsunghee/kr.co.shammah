@@ -43,7 +43,7 @@ $recentQuotes = $pdo->query('SELECT * FROM quotes ORDER BY created_at DESC LIMIT
   <main class="admin-content">
     <div class="admin-header">
       <h1>대시보드</h1>
-      <span>안녕하세요, <?php echo h($_SESSION['admin_user']); ?>님</span>
+      <span>안녕하세요, <?php echo h($_SESSION['admin_user'] ?? '관리자'); ?>님</span>
     </div>
 
     <!-- 요약 카드 -->

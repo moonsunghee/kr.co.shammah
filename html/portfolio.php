@@ -6,7 +6,6 @@ require_once 'includes/functions.php';
 $pageTitle   = '포트폴리오 | 삼마디자인';
 $currentPage = 'portfolio';
 $pageCSS     = 'portfolio.css';
-$pageJS      = 'portfolio.js';
 
 // 필터
 $category = $_GET['category'] ?? '';
@@ -35,7 +34,7 @@ include 'includes/header.php';
 </section>
 
 <!-- 포트폴리오 -->
-<div class="container portfolio">
+<div class="container portfolio-page">
   <header>
     <div class="portfolio-filter">
       <a href="/portfolio.php" class="filter-btn <?php echo !$category ? 'active' : ''; ?>">전체</a>
@@ -47,35 +46,35 @@ include 'includes/header.php';
       <?php endforeach; ?>
     </div>
   </header>
+
   <section>
+    <?php if (empty($portfolios)): ?>
+    <p class="empty">등록된 포트폴리오가 없습니다.</p>
+    <?php else: ?>
     <div class="portfolio-grid">
-      <?php if (empty($portfolios)): ?>
-      <p class="empty">등록된 포트폴리오가 없습니다.</p>
-      <?php else: ?>
       <?php foreach ($portfolios as $item): ?>
-      <article class="card portfolio-card" data-category="<?php echo h($item['category']); ?>">
-        <div class="card__thumb">
-          <?php if ($item['thumbnail']): ?>
+      <article class="portfolio-item">
+        <?php if ($item['thumbnail']): ?>
           <img src="<?php echo h($item['thumbnail']); ?>" alt="<?php echo h($item['title']); ?>" loading="lazy">
-          <?php else: ?>
-          <div class="card__thumb-placeholder"></div>
-          <?php endif; ?>
-        </div>
-        <div class="card__info">
-          <span class="card__category"><?php echo h($item['category']); ?></span>
-          <h4 class="card__title"><?php echo h($item['title']); ?></h4>
-          <?php if ($item['description']): ?>
-          <p class="card__desc"><?php echo h($item['description']); ?></p>
-          <?php endif; ?>
+        <?php else: ?>
+          <div class="portfolio-item__placeholder">
+            <i class="fa-regular fa-image"></i>
+          </div>
+        <?php endif; ?>
+        <div class="portfolio-item__overlay">
+          <span class="portfolio-item__cat"><?php echo h($item['category']); ?></span>
+          <h4 class="portfolio-item__title"><?php echo h($item['title']); ?></h4>
           <?php if ($item['link_url']): ?>
-          <a href="<?php echo h($item['link_url']); ?>" target="_blank" rel="noopener" class="card__link">사이트 보기 →</a>
+          <a href="<?php echo h($item['link_url']); ?>" target="_blank" rel="noopener" class="portfolio-item__link">사이트 보기</a>
           <?php endif; ?>
         </div>
       </article>
       <?php endforeach; ?>
-      <?php endif; ?>
     </div>
+    <?php endif; ?>
   </section>
+
+  <?php include 'includes/container_footer.php'; ?>
 </div>
 
 <?php include 'includes/footer.php'; ?>
