@@ -31,7 +31,8 @@
           <li class="<?php echo nav_active('index', $currentPage ?? ''); ?>"><a href="/">홈</a></li>
           <li class="<?php echo nav_active('freelancer', $currentPage ?? ''); ?>"><a href="/freelancer.php" >프리랜서안내</a></li>
           <li class="<?php echo nav_active('portfolio', $currentPage ?? ''); ?>"><a href="/portfolio.php">포트폴리오</a></li>
-          <li class="<?php echo nav_active('lesson', $currentPage ?? ''); ?>"><a href="/lesson.php">교육</a></li>          
+          <li class="<?php echo nav_active('lesson', $currentPage ?? ''); ?>"><a href="/lesson.php">교육</a></li>
+          <li class="<?php echo nav_active('ai-literacy', $currentPage ?? ''); ?>"><a href="/ai-literacy.php">AI Literacy</a></li>
           <li class="<?php echo nav_active('quote', $currentPage ?? ''); ?>"><a href="/quote.php">견적요청</a></li>
           <li class="<?php echo nav_active('cardnews', $currentPage ?? ''); ?>"><a href="/cardnews.php">AI카드뉴스</a></li>
         </ul>

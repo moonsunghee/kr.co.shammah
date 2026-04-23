@@ -487,7 +487,7 @@ async function captureCard(html) {
   await document.fonts.ready;
   await new Promise(r => setTimeout(r, 200));
   const canvas = await html2canvas(card, {
-    width: 1080, height: 1080, scale: 1,
+    width: 1080, height: 1350, scale: 1,
     useCORS: true, allowTaint: false,
     backgroundColor: null
   });

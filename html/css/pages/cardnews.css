@@ -265,7 +265,7 @@
 }
 .cn-display {
   width: 480px;
-  height: 480px;
+  height: 600px;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
@@ -274,7 +274,7 @@
 }
 .cn-display .cn-card-inner {
   width: 1080px;
-  height: 1080px;
+  height: 1350px;
   transform: scale(calc(480/1080));
   transform-origin: top left;
   position: absolute;
@@ -326,7 +326,7 @@
 }
 .cn-btn-dl-all:hover { background: #e85c5c; }
 
-/* ── 카드 템플릿 (1080×1080) ── */
+/* ── 카드 템플릿 (1080×1350, 4:5 세로형) ── */
 .cn-render-area {
   position: fixed;
   left: -9999px;
@@ -335,7 +335,7 @@
 }
 .cn-card {
   width: 1080px;
-  height: 1080px;
+  height: 1350px;
   font-family: 'Noto Sans KR', sans-serif;
   position: relative;
   overflow: hidden;
@@ -439,10 +439,9 @@
   letter-spacing: -1.5px;
   word-break: keep-all;
   margin-bottom: 40px;
-  flex: 1;
 }
 .cn-news-body {
-  font-size: 34px;
+  font-size: 44px;
   font-weight: 400;
   line-height: 1.7;
   word-break: keep-all;
@@ -500,7 +499,7 @@
   display: flex;
   align-items: flex-start;
   gap: 24px;
-  font-size: 36px;
+  font-size: 44px;
   font-weight: 500;
   line-height: 1.5;
   word-break: keep-all;
